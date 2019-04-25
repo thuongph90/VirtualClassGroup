@@ -79,6 +79,7 @@ module.exports = {
     },
 
     edit: function (req, res) {
+        console.log("hittt controller");
         ClassRoom.update({ _id: req.params.id }, { $set: { classroom_name: req.body.classroom_name, classroom_code: req.body.classroom_code } }, function (err, Classroom) {
             if (err) {
                 console.log(err);
@@ -104,6 +105,7 @@ module.exports = {
         })
     },
     delete: function (req, res) {
+        console.log("im here in the controllers!!")
         ClassRoom.remove({ _id: req.params.id }, function (err) {
             if (err) {
                 console.log(err);
