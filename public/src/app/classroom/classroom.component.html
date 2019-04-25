@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home">Welcome, Jolie <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">My Account</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          My Courses
+        </a>
+        <div id="courseOptions" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['/classroom/1']">Course 1</a>
+          <a class="dropdown-item" href="#">Course 2</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Add a New Course</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div>
+  <div id="content">
+    <h1>Welcome to History Class, Jolie</h1>
+    <h4>(Please no cheating)</h4>
+  </div>
+</div>

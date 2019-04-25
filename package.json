@@ -1,0 +1,25 @@
+{
+  "name": "VirtualClass",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-flash": "0.0.2",
+    "express-session": "^1.16.1",
+    "jquery": "^3.4.0",
+    "mongoose": "^5.5.3",
+    "save": "^2.3.3",
+    "socket.io": "^2.2.0"
+  }
+}
