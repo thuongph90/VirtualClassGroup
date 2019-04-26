@@ -10,7 +10,7 @@ import * as $ from 'jquery';
 })
 export class HomeComponent implements OnInit {
   user = {};
-  userID: any;
+  userID = '';
   classroom: any;
   newClassroom: any;
   newCode = '';
@@ -103,8 +103,10 @@ export class HomeComponent implements OnInit {
     }
     return this.newCode;
   }
+
   //When a Classroom is created, the whole object's user is added into users
   errorClassroomName = false;
+
   onSumbitClassroom() {
     var existnameinclass = false;
     for (var i = 0; i < this.AllClassesofUser.length; i++) {
@@ -124,31 +126,33 @@ export class HomeComponent implements OnInit {
       this.classroom = { classroom_name: this.newClassroom.classroom_name, classroom_code: code };
       this._httpService.CreateClassroom(this.classroom).subscribe(data => {
         console.log(data);
-        if(data['error']!=null){
+        if (data['error'] != null) {
           this.errorClassroomName = true;
         }
-        else{
+        else {
           this.errorClassroomName = false;
-       
-        this.classroomID = data['data']['_id'];
-        // console.log("Classroom ID ", this.classroomID)
-        // console.log("this user:", this.user)
-        this.newClassroom = { classroom_name: "" }
-        this.classroom = { classroom_name: "", classroom_code: "" }
-        let Observable = this._httpService.UpdateUserintoClassroom(this.user, this.classroomID);
-        // Observable.subscribe(data => {
-        // })
-        this._router.navigate([`../home/${this.userID}`])
-      }
+
+          this.classroomID = data['data']['_id'];
+          // console.log("Classroom ID ", this.classroomID)
+          // console.log("this user:", this.user)
+          this.newClassroom = { classroom_name: "" }
+          this.classroom = { classroom_name: "", classroom_code: "" }
+          let Observable = this._httpService.UpdateUserintoClassroom(this.user, this.classroomID);
+          Observable.subscribe(data => {
+          })
+          this._router.navigate([`../home/${this.userID}`])
+        }
       })
     }
   }
+
   currentClass = { classroom_name: "" }
   classcode = ""
   getcodedone = false;
   classname = "";
   errorClassname = false;
   // error= false;
+
   OnGetCode() {
     console.log("To Get Code")
     let rightClassname = false
@@ -173,6 +177,7 @@ export class HomeComponent implements OnInit {
 
   errorEnterCode = false
   errorsameuser = false;
+
   OnEnterClassroombyCode() {
     console.log("Enter Classroom by code", this.AClass.classroom_code)
     this._httpService.ShowAllClasses().subscribe(data => {
@@ -218,14 +223,11 @@ export class HomeComponent implements OnInit {
       }
       else {
         console.log("Invalid Code")
-        this.errorEnterCode = true;
-
+        this.errorEnterCode = true
       }
       // console.log("All Classes belong to user",this.AllClassesofUser)
     })
-
   }
-
 
   // onEdit() {
   //   let Observable = this._httpService.UpdateClassroom(this.user, this.classroomID);
@@ -234,4 +236,5 @@ export class HomeComponent implements OnInit {
   //     console.log("////////////")
   //   })
   // }
+
 }
