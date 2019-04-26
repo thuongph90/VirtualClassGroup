@@ -10,103 +10,105 @@ import 'rxjs/add/operator/map';
 })
 export class HttpService {
 
-  constructor(private _http: HttpClient, private socket: Socket){}
+  constructor(private _http: HttpClient, private socket: Socket) { }
   // User
-  CreateUser(body){
+  CreateUser(body) {
     console.log("Go To Http-Service")
     console.log(body)
     return this._http.post("/users", body)
   }
-  LogIn(body){
+  LogIn(body) {
     console.log("Go To Http-Service")
     console.log(body)
     return this._http.post("/login", body)
   }
-  DeleteUser(user){
+  DeleteUser(user) {
     return this._http.delete(`users/${user._id}`)
   }
-  DetailUser(id){
+  DetailUser(id) {
     return this._http.get(`/users/${id}`)
   }
-  UpdateUser(id, body){
+  UpdateUser(id, body) {
     console.log("hittttt edit service.ts")
     console.log(id)
-    return this._http.put("users/"+ id, body)
+    return this._http.put("users/" + id, body)
   }
   //Exercise
-  CreateExercise(body){
+  CreateExercise(body) {
     console.log('in http service create exercise', body)
     return this._http.post("/exercises", body)
   }
 
-  DeleteExercise(exercise){
+  DeleteExercise(exercise) {
     return this._http.delete(`exercises/${exercise._id}`)
   }
-  DetailExercise(id){
+  DetailExercise(id) {
     return this._http.get(`/exercises/${id}`)
   }
-  UpdateExercise(body){
-    return this._http.put("exercises/"+body['_id'], body)
+  UpdateExercise(body) {
+    return this._http.put("exercises/" + body['_id'], body)
   }
   //Answer
-  CreateAnswer(body){
+  CreateAnswer(body) {
+    console.log('in http service for ans create')
     return this._http.post(`/answers`, body)
   }
 
-  DeleteAnswer(answer){
+  DeleteAnswer(answer) {
     return this._http.delete(`answers/${answer._id}`)
   }
-  DetailAnswer(id){
+  DetailAnswer(id) {
     return this._http.get(`/answers/${id}`)
   }
-  UpdateAnswer(body){
-    return this._http.put("answers/"+body['_id'], body)
+  UpdateAnswer(body) {
+    return this._http.put("answers/" + body['_id'], body)
   }
   //Classroom
-  CreateClassroom(body){
+  CreateClassroom(body) {
     console.log("Go To Http-Service")
     console.log(body)
     return this._http.post("/classroom", body)
   }
 
-  DeleteClassroom(classroom){
+  DeleteClassroom(classroom) {
     console.log("hittttt service.ts")
     console.log(classroom._id)
     return this._http.delete(`/classroom/${classroom._id}`)
   }
-  DetailClassroom(id){
+  DetailClassroom(id) {
     return this._http.get(`/classroom/${id}`)
   }
-  editClassrooom(id, body){
+  editClassrooom(id, body) {
     // console.log("hittt service.ts");
     // console.log(id);
     // console.log(body);
-    return this._http.put(`/classroom/`+id, body)
+    return this._http.put(`/classroom/` + id, body)
   }
-  getClass(id){
+  getClass(id) {
     return this._http.get(`/classroom/${id}`)
   }
- 
-  UpdateUserintoClassroom(body, id){
+
+  UpdateUserintoClassroom(body, id) {
     // console.log("Go To Http-Service to Add USER Into Class 998888")
     // console.log(body)
-    return this._http.put(`/usertoclassroom/`+id, body)
+    return this._http.put(`/usertoclassroom/` + id, body)
   }
-  UpdateExerciseintoClassroom(body,id){
-    return this._http.put(`/exercisetoclassroom/`+id, body)
+  UpdateExerciseintoClassroom(body, id) {
+    return this._http.put(`/exercisetoclassroom/` + id, body)
   }
-  UpdateAnswerintoClassroom(body,id){
-    return this._http.put(`/answertoclassroom/`+id, body)
+  UpdateAnswerintoClassroom(body, id) {
+    console.log('http answer to class')
+    return this._http.put(`/answertoclassroom/` + id, body)
   }
   // ShowClassesofUser(body){
   //   console.log("Go To Http-Service to get all classes for user ",body)
-    
+
   //   return this._http.get(`/classroomofuser`,body)
   // }
   // EditClassroom(body){
   //   return this._http.put("/classrooms/"+body['_id'], body)
   // }
-  ShowAllClasses(){
+  ShowAllClasses() {
     return this._http.get(`/classes`)
   }
 
@@ -118,7 +120,7 @@ export class HttpService {
   }
 
   newMessageReceived() {
-    const observable = new Observable<{ user: String, message: String}>(observer => {
+    const observable = new Observable<{ user: String, message: String }>(observer => {
       this.socket.on('new message', (data) => {
         observer.next(data);
       });
@@ -135,7 +137,7 @@ export class HttpService {
   }
 
   newAnswerReceived() {
-    const observable = new Observable<{ student: String, ans: String, ques: String}>(observer => {
+    const observable = new Observable<{ student: String, ans: String, ques: String }>(observer => {
       this.socket.on('new answer', (data) => {
         observer.next(data);
       });
@@ -145,5 +147,5 @@ export class HttpService {
     });
     return observable;
   }
-  
+
 }
