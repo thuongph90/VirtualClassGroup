@@ -124,22 +124,22 @@ export class HomeComponent implements OnInit {
       this.classroom = { classroom_name: this.newClassroom.classroom_name, classroom_code: code };
       this._httpService.CreateClassroom(this.classroom).subscribe(data => {
         console.log(data);
-        if(data['error']!=null){
+        if (data['error'] != null) {
           this.errorClassroomName = true;
         }
-        else{
+        else {
           this.errorClassroomName = false;
-       
-        this.classroomID = data['data']['_id'];
-        // console.log("Classroom ID ", this.classroomID)
-        // console.log("this user:", this.user)
-        this.newClassroom = { classroom_name: "" }
-        this.classroom = { classroom_name: "", classroom_code: "" }
-        let Observable = this._httpService.UpdateUserintoClassroom(this.user, this.classroomID);
-        // Observable.subscribe(data => {
-        // })
-        this._router.navigate([`../home/${this.userID}`])
-      }
+
+          this.classroomID = data['data']['_id'];
+          // console.log("Classroom ID ", this.classroomID)
+          // console.log("this user:", this.user)
+          this.newClassroom = { classroom_name: "" }
+          this.classroom = { classroom_name: "", classroom_code: "" }
+          let Observable = this._httpService.UpdateUserintoClassroom(this.user, this.classroomID);
+          Observable.subscribe(data => {
+          })
+          this._router.navigate([`../home/${this.userID}`])
+        }
       })
     }
   }
