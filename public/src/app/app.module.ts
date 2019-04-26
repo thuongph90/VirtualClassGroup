@@ -16,6 +16,10 @@ import { AppBootstrapModule } from './bootstrap/app-bootstrap.module';
 import { ClassroomComponent } from './classroom/classroom.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +34,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     HttpClientModule,
     AppRoutingModule,
     NgxPopper,
-    AppBootstrapModule
+    AppBootstrapModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     HttpService

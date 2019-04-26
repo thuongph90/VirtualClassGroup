@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as io from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private _http: HttpClient){}
+  constructor(private _http: HttpClient, private socket: Socket){}
   // User
   CreateUser(body){
     console.log("Go To Http-Service")
@@ -104,4 +108,24 @@ export class HttpService {
   ShowAllClasses(){
     return this._http.get(`/classes`)
   }
+
+  // SOCKETS
+
+  sendMessage(data: any) {
+    console.log(data)
+    this.socket.emit("message", data)
+  }
+
+  newMessageReceived() {
+    const observable = new Observable<{ user: String, message: String}>(observer => {
+      this.socket.on('new message', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+  
 }
