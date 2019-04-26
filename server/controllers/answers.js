@@ -5,8 +5,10 @@ require('../models/models.js');
 var Answer = mongoose.model('StudentAnswer');
 var ClassRoom = mongoose.model('ClassRoom');
 module.exports = {
+
     create: function (req, res) {
-        var newAnswer = new Answer({ content: req.body.content, teacher_id: req.body.teacher_id })
+        console.log('in controller')
+        var newAnswer = new Answer({ content: req.body.content, student_name: req.body.student_name, exercise_content: req.body.exercise_content })
         newAnswer.save(function (err, newAnswer) {
             if (err) {
                 console.log('something went wrong');
@@ -17,20 +19,20 @@ module.exports = {
             }
             else { // else console.log that we did well and then redirect to the root route
                 console.log('successfully added an Answer!');
-                ClassRoom.findOne({ _id: req.params.id }, { $push: { answer: newAnswer } }, function (err) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        res.json({ message: "Success", data: newAnswer })
-                    }
-                })
+                // ClassRoom.findOne({ _id: req.params.id }, { $push: { answer: newAnswer } }, function (err) {
+                //     if (err) {
+                //         console.log(err)
+                //     }
+                //     else {
+                res.json({ message: "Success", data: newAnswer })
+                //     }
+                // })
 
             }
         })
     },
     edit: function (req, res) {
-        Answer.findOne({ _id: req.params.id }, function (err,newAnswer  ) {
+        Answer.findOne({ _id: req.params.id }, function (err, newAnswer) {
             if (err) {
                 console.log(err);
                 // res.redirect('/edit');
@@ -43,7 +45,7 @@ module.exports = {
         })
     },
     detail: function (req, res) {
-        Answer.find({ _id: req.params.id}, function (err, Answer) {
+        Answer.find({ _id: req.params.id }, function (err, Answer) {
             if (err) {
                 console.log(err);
             }
@@ -57,10 +59,10 @@ module.exports = {
         Answer.remove({ _id: req.params.id }, function (err) {
             if (err) {
                 console.log(err);
-                res.json({message: "Error", error: err})
+                res.json({ message: "Error", error: err })
             }
             else {
-                res.json({message: "Success"})
+                res.json({ message: "Success" })
 
             }
         })

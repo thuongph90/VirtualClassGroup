@@ -91,20 +91,31 @@ export class ClassroomComponent implements OnInit {
     })
     this.exercise = { content: "" }
   }
+  answerform= false;
+  
+  selectExercise(body: any) {
+    console.log("body", body)
+    this.answerform= true;
+    this.exercise = body['content']
+    console.log('LOOK', this.exercise)
+  }
 
   writeAnswer() {
+    this.answerform = false;
+    this.selectExercise
+    console.log(this.answerArray)
     console.log('in answer method')
-    this.exercise = "Write your name";
     // Socket
     this._httpService.sendAnswer({ student: this.theUser, ans: this.theAnswer['content'], ques: this.exercise });
     var an: any;
     console.log("student name", this.theUser['name'])
     // Save to database
     this.newanswer = { content: this.theAnswer.content, student_name: this.theUser['name'], exercise_content: this.exercise }
+    console.log(this.newanswer)
     this._httpService.CreateAnswer(this.newanswer).subscribe(data => {
       console.log("Successfully Create An Answer", data['data'])
       an = data['data']
-      this._httpService.UpdateExerciseintoClassroom(an, this.classID).subscribe(data => {
+      this._httpService.UpdateAnswerintoClassroom(an, this.classID).subscribe(data => {
         console.log("Add Anwer into Classroom")
       })
       this.theAnswer = { content: "" }
@@ -127,8 +138,7 @@ export class ClassroomComponent implements OnInit {
     }
     console.log('All answers 9999999', this.allAnswers)
   }
-
-
+ 
   // Modal //
   open(content) {
     this.modalService.open(content);

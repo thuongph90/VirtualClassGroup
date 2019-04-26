@@ -17,3 +17,10 @@
     background: #ffc107;
     color: black;
 }
+
+.chalk{
+    border: none;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+}

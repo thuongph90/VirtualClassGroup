@@ -38,8 +38,12 @@
 
   <div style="display: flex; justify-content: center">
     <div id="chalkboard">
-      <p *ngFor="let ex of allExercises">{{ ex.content }}</p>
-      <p *ngFor="let item of messageArray">{{ item.message }}</p>
+      <div *ngFor="let ex of allExercises">
+        <button class="chalk" (click)="selectExercise(ex)" >{{ ex.content }}</button>
+      </div>
+      <div *ngFor="let item of messageArray">
+        <button class="chalk" (click)="selectExercise(item)" >{{ item.message }}</button>
+      </div>
     </div>
   </div>
 
@@ -47,7 +51,7 @@
 
   <!-- Student form -->
   <div class="container-fluid" *ngIf="studentMode">
-    <form (submit)="writeAnswer()">
+    <form (submit)="writeAnswer()" *ngIf="answerform">
       <br>
       <input type="text" class="form-control" name="theAnswer.content" [(ngModel)]="theAnswer.content"
         placeholder=" Type your answer here">
@@ -98,9 +102,10 @@
 
   <div class="mx-auto" *ngFor="let item of answerArray" style="width: 90%">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel title="{{item.student}}'s Answer">
+      <ngb-panel title="{{item.student.name}}'s Answer">
         <ng-template ngbPanelContent>
-          {{ item.answer }}
+          <span style="font-weight: bold">{{ item.ques }}: </span>
+          {{ item.ans }}
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
