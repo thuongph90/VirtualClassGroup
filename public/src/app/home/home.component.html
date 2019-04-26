@@ -2,7 +2,7 @@
 
   <!-- Sidebar -->
   <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading">&nbsp;Canary 
+    <div class="sidebar-heading">&nbsp;Canary
     </div>
 
     <button type="button" class="btn btn-outline-warning" (click)="isCollapsed = !isCollapsed"
@@ -14,7 +14,7 @@
         <div class="card-body">
           {{each.classroom_name}}
         </div>
-       
+
       </div>
     </div>
 
@@ -63,7 +63,7 @@
             <a class="nav-link" href="#">My Account</a>
           </li>
           <li class="nav-item dropdown">
-            <a  id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               My Courses
             </a>
@@ -83,38 +83,49 @@
 
 
     <div class="container-fluid">
-      <h1 class="mt-4" style="color: #FFC107">Welcome  to Canary Learning Center</h1>
+      <h1 class="mt-4" style="color: #FFC107">Welcome to Canary Learning Center</h1>
       <!-- Student Enter the Code to join Class -->
       <div *ngIf='Student'>
-        <p> Please Enter the access code from your teacher  to join class</p>
-      <form  (submit)="onSumbitEnterClassroom()">
-        
-        <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
-        <input type="text" name="newClassroom.classroom_name" class="form-control" placeholder="" [(ngModel)]="newClassroom.classroom_name" />
-        <input type="submit" value="Submit" />
-      </form>
+        <p> Please Enter the access code from your teacher to join class</p>
+        <form (submit)="OnEnterClassroombyCode()">
+
+          <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
+          <input type="text" name="AClass.classroom_code" class="form-control" placeholder="ex: MwPIb"
+            [(ngModel)]="AClass.classroom_code" />
+            <span *ngIf="errorEnterCode" style="color: red">Please Enter the correct code</span><br>
+            <span *ngIf="errorsameuser" style="color: red">You are already in class</span><br>
+          <input type="submit" value="Submit" />
+        </form>
       </div>
       <!-- Teacher get the code of the class for student  -->
       <div *ngIf='Teacher'>
-        <p> Get the Code for the Class</p>
-      <form  (submit)="onSumbitEnterClassroom()">
         
-        <label for="exampleInputName1" class="text-uppercase">Enter Class's name Here: &nbsp;</label>
-        <input type="text" name="newClassroom.classroom_name" class="form-control" placeholder="" [(ngModel)]="newClassroom.classroom_name" />
-        <input type="submit" value="Submit" />
-      </form>
+          <p> Get the Code for the Class</p>
+        <form (submit)="OnGetCode()">
+
+          <label for="exampleInputName1" class="text-uppercase">Class's name: &nbsp;</label>
+          <input type="text" name="currentClass.classroom_name" class="form-control" placeholder=""
+            [(ngModel)]="currentClass.classroom_name" />
+            <span *ngIf="errorClassname" style="color: red"> Sorry, Invalid Class's name. Please Enter your classname again or Go into your account for further information</span><br>
+          <input type="submit" value="Submit" />
+        </form>
+        <div *ngIf='getcodedone'>
+          <h3>{{ classname}} has code: <span style="color: red">{{classcode}}</span> </h3>
+        </div>
       </div>
 
-        <!-- New Course Form -->
-        <div id="addCourseForm" class="form-group">
+      <!-- New Course Form -->
+      <div id="addCourseForm" class="form-group">
         <form *ngIf='showAddCourseForm' (submit)="onSumbitClassroom()">
           <h3>New Course</h3>
           <label for="exampleInputName1" class="text-uppercase">Name &nbsp;</label>
-          <input type="text" name="newClassroom.classroom_name" class="form-control" placeholder="" [(ngModel)]="newClassroom.classroom_name" />
+          <span *ngIf="errorClassroomName" style="color: red">Classroom Name already exists or empty</span>
+          <input type="text" name="newClassroom.classroom_name" class="form-control" placeholder=""
+            [(ngModel)]="newClassroom.classroom_name" required/>
           <input type="submit" value="Create" />
         </form>
-        </div>
-        <!-- End Of New Course Form -->
+      </div>
+      <!-- End Of New Course Form -->
 
     </div>
   </div>
