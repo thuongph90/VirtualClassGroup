@@ -1,4 +1,19 @@
 #content{
     padding: 15px;
-    width: 80%;
+    width: 100%;
+}
+
+#chalkboard{
+    width: 72%;
+    height: 250px;
+    border: 12px solid burlywood;
+    background: darkslategray;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+}
+
+#enterAnswer{
+    background: #ffc107;
+    color: black;
 }
