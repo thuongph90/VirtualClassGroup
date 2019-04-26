@@ -1,0 +1,43 @@
+#editForm{
+    width: 50%;
+    height: 50%;
+    /* border: solid 1px #ffc107;
+    border-radius: 3px; */
+    margin-left: 25%;
+
+}
+#teacherList{
+    width: 50%;
+    height: 50%;
+    margin-left: 25%;
+}
+#listTable{
+    margin-left: 25%;
+}
+#iconApple{
+    width: 5%;
+    height: 5%;
+    display: inline-block;
+    margin-left: 90%;
+    vertical-align: top;
+}
+#iconPencil{
+    width: 4%;
+    height: 4%;
+    display: inline-block;
+    margin-left: 90%;
+    vertical-align: top;
+}
+#container{
+    border: solid 2px black;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    
+    background-color: white;
+}
+body{
+    background: #ffc107;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #FFD762, #ffc107);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #FFD762, #ffc107); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

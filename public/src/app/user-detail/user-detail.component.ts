@@ -21,6 +21,7 @@ export class UserDetailComponent implements OnInit {
   showEditForm = false;
   updateClassroom: any;
   OneSingleClassroom: any;
+  showPersonalEditForm = false;
 
   editUser: any;
 
@@ -160,6 +161,10 @@ export class UserDetailComponent implements OnInit {
      
       this.showEditForm = true;
     });
+  }
+
+  onEditButtonForPersonalForm(){
+    this.showPersonalEditForm = true;
   }
 
   onEditClass(){
