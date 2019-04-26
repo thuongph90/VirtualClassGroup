@@ -43,9 +43,9 @@ module.exports = {
             })
         })
     },
+
     updateExercise: function (req, res) {
         console.log("Controllers update Exercise into classroom", req.params.id)
-        console.log()
         ClassRoom.findOne({ _id: req.params.id }, function (err, oneclass) {
             console.log("AAAAAAAAAAAAAAAAA",oneclass)
             oneclass.exercises.push(req.body);
@@ -60,6 +60,7 @@ module.exports = {
             })
         })
     },
+
     updateAnswer: function (req, res) {
         console.log("Controllers update Exercise into classroom", req.params.id)
         console.log()

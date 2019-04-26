@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
     for (var i = 0; i < 5; i++) {
       this.newCode += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return this.newCode;
+    return this.newCode
   }
 
   //When a Classroom is created, the whole object's user is added into users
@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
           let Observable = this._httpService.UpdateUserintoClassroom(this.user, this.classroomID);
           Observable.subscribe(data => {
           })
-          this._router.navigate([`../home/${this.userID}`])
+          this._router.navigate([`/classroom/${this.classroomID}/${this.userID}`])
         }
       })
     }
@@ -226,6 +226,7 @@ export class HomeComponent implements OnInit {
         this.errorEnterCode = true
       }
       // console.log("All Classes belong to user",this.AllClassesofUser)
+      this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
     })
   }
 

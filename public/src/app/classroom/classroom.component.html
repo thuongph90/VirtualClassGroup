@@ -38,6 +38,7 @@
 
   <div style="display: flex; justify-content: center">
     <div id="chalkboard">
+      <p *ngFor="let ex of allExercises">{{ ex.content }}</p>
       <p *ngFor="let item of messageArray">{{ item.message }}</p>
     </div>
   </div>
@@ -48,7 +49,7 @@
   <div class="container-fluid" *ngIf="studentMode">
     <form (submit)="writeAnswer()">
       <br>
-      <input type="text" class="form-control" name="exercise.message" [(ngModel)]="answer.message"
+      <input type="text" class="form-control" name="theAnswer.content" [(ngModel)]="theAnswer.content"
         placeholder=" Type your answer here">
       <br>
       <div style="text-align: right">
@@ -61,7 +62,7 @@
   <div class="container-fluid" *ngIf="teacherMode">
     <form (submit)="writeExercise()">
       <br>
-      <input type="text" class="form-control" name="exercise.message" [(ngModel)]="exercise.message"
+      <input type="text" class="form-control" name="exercise.content" [(ngModel)]="exercise.content"
         placeholder=" Type class exercise here">
       <br>
       <div style="text-align: right">
@@ -83,11 +84,23 @@
     </div>
   </ng-template>
 
-  <div class="mx-auto" *ngFor="let item of messageArray" style="width: 90%">
+  <!-- Student answer for loop -->
+  <div class="mx-auto" *ngFor="let answer of allAnswers" style="width: 90%">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel title="{{item.user}}'s Answer">
+      <ngb-panel title="{{answer.student_name}}'s Answer">
         <ng-template ngbPanelContent>
-          {{ item.message }}
+          {{answer.exercise_content}}
+          {{ answer.content }}
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+
+  <div class="mx-auto" *ngFor="let item of answerArray" style="width: 90%">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+      <ngb-panel title="{{item.student}}'s Answer">
+        <ng-template ngbPanelContent>
+          {{ item.answer }}
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
