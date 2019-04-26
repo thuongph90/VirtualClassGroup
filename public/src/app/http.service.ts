@@ -28,8 +28,10 @@ export class HttpService {
   DetailUser(id){
     return this._http.get(`/users/${id}`)
   }
-  UpdateUser(body){
-    return this._http.put("users/"+body['_id'], body)
+  UpdateUser(id, body){
+    console.log("hittttt edit service.ts")
+    console.log(id)
+    return this._http.put("users/"+ id, body)
   }
   //Exercise
   CreateExercise(body){
@@ -67,15 +69,26 @@ export class HttpService {
   }
 
   DeleteClassroom(classroom){
-    return this._http.delete(`/classrooms/${classroom._id}`)
+    console.log("hittttt service.ts")
+    console.log(classroom._id)
+    return this._http.delete(`/classroom/${classroom._id}`)
   }
   DetailClassroom(id){
     return this._http.get(`/classroom/${id}`)
   }
+  editClassrooom(id, body){
+    // console.log("hittt service.ts");
+    // console.log(id);
+    // console.log(body);
+    return this._http.put(`/classroom/`+id, body)
+  }
+  getClass(id){
+    return this._http.get(`/classroom/${id}`)
+  }
  
   UpdateUserintoClassroom(body, id){
-    console.log("Go To Http-Service to Add USER Into Class 998888")
-    console.log(body)
+    // console.log("Go To Http-Service to Add USER Into Class 998888")
+    // console.log(body)
     return this._http.put(`/usertoclassroom/`+id, body)
   }
   UpdateExerciseintoClassroom(body,id){

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>User Detail</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <button id="menu-toggle" style="background: transparent; border: none"><img
+        src="https://cdn0.iconfinder.com/data/icons/cartoon-birds/50/47-128.png" alt="canary toggle menu"
+        id="canary"></button>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- NavBar Top -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/userDetail/' + user._id]">Welcome, {{ user.name }} <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/home/' + user._id]">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a  id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            My Courses
+          </a>
+          <div id="courseOptions" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['/classroom/1']">History</a>
+            <a class="dropdown-item" href="#">English</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="onNewCourse(user._id)" *ngIf="Teacher">Add a New Class</a>
+            <a class="dropdown-item" (click)="onNewCourse(user._id)" *ngIf="Student">Join a new class</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- End NavBar Top -->
+
+  </nav>
+
+  <div style="text-align: center">
+    <h2>{{ user.name }}'s Account Page</h2>
+  </div>
+
+  <!-- NAME AND EMAIL FORM -->
+  <div >
+    <form class="edit-form" (submit)="OnEditUser()">
+
+        <div class="form-group">
+            <label for="exampleInputEmail1" class="text-uppercase">Name &nbsp;</label>
+            <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
+            <input type="text" name="editUser.name" [(ngModel)]="editUser.name" class="form-control" placeholder="{{ user.name }}">
+          </div>
+
+      <div class="form-group">
+        <label for="exampleInputEmail1" class="text-uppercase">Email &nbsp;</label>
+        <span class="input-group-addon"> <i class="fa fa-envelope"></i></span>
+        <input type="text" name="editUser.email" [(ngModel)]="editUser.email" class="form-control" placeholder=" {{ user.email }}">
+      </div>
+      <input type="submit" value="Edit" />
+    </form>
+  </div>
+  <!-- END OF EDIT FORM -->
+
+
+  <!-- LIST OF CLASSROOMS -->
+  <h4>{{ user.name }}'s Classrooms</h4>
+  <div  *ngFor="let each of AllClassesofUser">
+    <ul>
+      <li>{{each.classroom_name}}
+          <button (click)="onEditButton(each._id)">edit</button>
+          <button (click)="deleteClass(each)">delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf='showEditForm'>
+    <form (submit)="onEditClass()">
+        <div class="form-group">
+            <label for="exampleInputEmail1" class="text-uppercase">Name &nbsp;</label>
+            <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
+            <input type="text" name="updateClassroom.classroom_name" [(ngModel)]="updateClassroom.classroom_name" class="form-control" placeholder="">
+            <input type="submit" value="Edit" />
+          </div>
+    </form>
+  </div>
+
+</body>
+</html>
