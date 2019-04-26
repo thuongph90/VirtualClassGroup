@@ -17,13 +17,13 @@ module.exports = function (app) {
     app.delete('/users/:id', users.deleteUser) //delete
 
     // // exercise SECTION in class with id== ClassRoom_id
-    app.post('/exercises/:classroom_id', exercises.create) //  create exercise
+    app.post('/exercises', exercises.create) //  create exercise
     app.put('/exercises/:id', exercises.edit) //  edit exercise
     app.get('/exercises/:id', exercises.detail) //show all the excercise 
     app.delete('/exercises/:id', exercises.delete) //delete 
 
     //  // answer SECTION in class with id== ClassRoom_id
-    app.post('/answers/:classroom_id', answers.create) //  create answer
+    app.post('/answers', answers.create) //  create answer
     app.put('/answers/:id', answers.edit) //  edit answer
     app.get('/answers/:id', answers.detail) //show all the answer 
     app.delete('/answers/:id', answers.delete) //delete 
@@ -33,7 +33,7 @@ module.exports = function (app) {
     app.get('/the_users', users.All) //
     app.post('/classroom', classroom.create)
     app.get('/classroom/:id', classroom.detail)
-    app.put('/classroom/:id', classroom.edit) //edit classroom
+    // app.put('/classroom/:id', classroom.edit) //edit classroom
     
     app.delete('/classroom/:id', classroom.delete)
 
@@ -47,6 +47,20 @@ module.exports = function (app) {
             console.log("///////////////;;;;;;;;;/")
             classroom.updateExercise(req, res);
         })
+    // app.put('/exercisetoclassroom/:id', classroom.updateExercise)
+
+    // app.route('/exercisetoclassroom/:id')
+    // .put(function (req, res) {
+    //     console.log("///////////////;;;;;;;;;/")
+    //     classroom.updateExercise(req, res);
+    // })
+
+    // app.route('/exercisetoclassroom/:id')
+    // .put(function (req, res){
+    //     console.log('//////////////////////')
+    //     classroom.updateExercise(req, res)
+    // })
+
     app.route('/answertoclassroom/:id')
         .put(function (req, res) {
             console.log("///////////////;;;;;;;;;/")
@@ -58,6 +72,8 @@ module.exports = function (app) {
     //         classroom.ShowAllClassesofUser(req, res);
     //     })
     // app.get('/classroomofuser/:id', classroom.ShowAllClassesofUser)
+    app.get('/exercises', exercises.All)
+
     app.get('/classes', classroom.All)
 
 }

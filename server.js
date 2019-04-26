@@ -37,6 +37,11 @@ io.on("connection", socket => {
         io.emit('new message', {user: data.user, message: data.message});
     })
 
+    socket.on('answer', function (data) {
+        console.log(data)
+        io.emit('new answer', {student: data.student, ans: data.ans, ques: data.ques});
+    })
+
 });
 
 http.listen(8000, function () {

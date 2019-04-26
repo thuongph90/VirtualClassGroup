@@ -60,9 +60,17 @@
             <a class="nav-link" [routerLink]="['/userDetail/' + user._id]">Welcome, {{ user.name }} <span
                 class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">My Account</a>
-          </li>
+          <li class="nav-item dropdown">
+              <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                My Account
+              </a>
+              <div id="courseOptions" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" [routerLink]="['/userDetail/' + user._id]">My Account</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" [routerLink]="['/']">Logout</a>
+              </div>
+            </li>
           <li class="nav-item dropdown">
             <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
