@@ -86,6 +86,8 @@ export class HomeComponent implements OnInit {
           }
         }
       }
+      // this.AllClassesofUser = [];
+      // this.showAllClassesofUser()
       console.log("All Classes belong to user", this.AllClassesofUser)
     })
   }
@@ -225,6 +227,7 @@ export class HomeComponent implements OnInit {
         console.log("Invalid Code")
         this.errorEnterCode = true
       }
+      this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
       // console.log("All Classes belong to user",this.AllClassesofUser)
       this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
     })

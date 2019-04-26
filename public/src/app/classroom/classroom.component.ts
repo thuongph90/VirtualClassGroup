@@ -11,7 +11,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   providers: [NgbModalConfig, NgbModal]
 })
 export class ClassroomComponent implements OnInit {
-
+  
   UserID = "";
   classID = "";
   theUser = {};
