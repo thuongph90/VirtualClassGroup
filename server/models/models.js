@@ -13,21 +13,21 @@ module.exports = function(){
     },{ timestamps: true })
     //Teacher's Exercise SCHEMA::::: Q
     var ExerciseSchema= new mongoose.Schema({
-        teacher_id:{type: String},
+        // teacher_id:{type: String},
         content:{type: String, required:[true, "Write your question here"]},
-        answer_id: {type: String},  //Student's answer
+        // answer_id: {type: String},  //Student's answer
     },{ timestamps: true })
     //Student's work SCHEMA:::: A
     var StudentAnswerSchema= new mongoose.Schema({
-        student_id:{type: String},
-        excercise_id: {type: String},
+        student_name:{type: String},
+        exercise_content: {type: String},
         content:{type: String, required:[true, "Write your answer here"]},
     },{ timestamps: true })
     //Classroom Schema
     var ClassRoomSchema= new mongoose.Schema({
         classroom_name: {type: String, required:[true, "Name of the Class is required"]},
         classroom_code: {type: String},
-        excercises:[ExerciseSchema] ,
+        exercises:[ExerciseSchema] ,
         answers:[StudentAnswerSchema] , 
         users:[UserSchema]
     },{ timestamps: true })

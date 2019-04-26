@@ -35,6 +35,7 @@ export class HttpService {
   }
   //Exercise
   CreateExercise(body){
+    console.log('in http service create exercise', body)
     return this._http.post("/exercises", body)
   }
 
@@ -48,8 +49,8 @@ export class HttpService {
     return this._http.put("exercises/"+body['_id'], body)
   }
   //Answer
-  CreateAnswer(body, classroom_id){
-    return this._http.post(`/answers/${classroom_id}`, body)
+  CreateAnswer(body){
+    return this._http.post(`/answers`, body)
   }
 
   DeleteAnswer(answer){
@@ -119,6 +120,23 @@ export class HttpService {
   newMessageReceived() {
     const observable = new Observable<{ user: String, message: String}>(observer => {
       this.socket.on('new message', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+
+  sendAnswer(data: any) {
+    console.log(data)
+    this.socket.emit("answer", data)
+  }
+
+  newAnswerReceived() {
+    const observable = new Observable<{ student: String, ans: String, ques: String}>(observer => {
+      this.socket.on('new answer', (data) => {
         observer.next(data);
       });
       return () => {

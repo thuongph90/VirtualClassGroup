@@ -2,7 +2,8 @@ var path = require('path');
 var fs = require('fs')
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/VirtualClassroom2'); //Just change database name here
+mongoose.connect('mongodb://localhost/VirtualClassroomTwo'); //Just change database name here
+
 let models_path = path.join(__dirname, './../models');
 console.log('rabbit')
 //iterates through the models folder and searches for all the model js files

@@ -6,7 +6,8 @@ var Exercise = mongoose.model('Exercise');
 var ClassRoom = mongoose.model('ClassRoom');
 module.exports = {
     create: function (req, res) {
-        var newExercise = new Exercise({ content: req.body.content, teacher_id: req.body.teacher_id })
+        console.log('in controller')
+        var newExercise = new Exercise({ content: req.body.content })
         newExercise.save(function (err, newExercise) {
             if (err) {
                 console.log('something went wrong');
@@ -17,14 +18,15 @@ module.exports = {
             }
             else { // else console.log that we did well and then redirect to the root route
                 console.log('successfully added an Exercise!');
-                ClassRoom.findOne({ _id: req.params.id }, { $push: { exercise: newExercise } }, function (err) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        res.json({ message: "Success", data: newExercise })
-                    }
-                })
+                res.json({ message: "Successlly updated", data: newExercise })
+                // ClassRoom.findOne({ _id: req.params.id }, { $push: { exercises: newExercise } }, function (err) {
+                //     if (err) {
+                //         console.log(err)
+                //     }
+                //     else {
+                //         res.json({ message: "Success", data: newExercise })
+                //     }
+                // })
 
             }
         })
@@ -64,7 +66,18 @@ module.exports = {
 
             }
         })
-    }
+    },
+
+    All: function (req, res) {
+        Exercise.find({}, function (err, exercises) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.json({ message: "All exercises", data: exercises })
+            }
+        })
+    },
 }
 
 

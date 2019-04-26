@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
     for (var i = 0; i < 5; i++) {
       this.newCode += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return this.newCode;
+    return this.newCode
   }
 
   //When a Classroom is created, the whole object's user is added into users
@@ -229,6 +229,7 @@ export class HomeComponent implements OnInit {
       }
       this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
       // console.log("All Classes belong to user",this.AllClassesofUser)
+      this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
     })
   }
 
