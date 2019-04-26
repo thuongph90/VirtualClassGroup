@@ -25,7 +25,20 @@
 
 <div>
   <div id="content">
-    <h1>Welcome to History Class, Jolie</h1>
-    <h4>(Please no cheating)</h4>
+    <h1>Welcome to History Class</h1>
   </div>
+
+  <div class="container-fluid">
+    <h1 class="mt-4" style="color: #FFC107">Canary Learning Center</h1>
+      <form (submit)="sendMessage()">
+          <input type="text" name="clientMessage.name" [(ngModel)]="clientMessage.name" placeholder=" Type name">
+          <br>
+          <input type="text" name="clientMessage.message" [(ngModel)]="clientMessage.message" placeholder=" Type message">
+          <input type="submit">
+      </form>
+      <div *ngFor="let item of messageArray">
+        <p>{{ item.message }}</p>                
+    </div>
+  </div>
+
 </div>
