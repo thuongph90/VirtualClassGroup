@@ -5,7 +5,7 @@
         <a class="nav-link" href="/home">Welcome, {{theUser.name}} <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">My Account</a>
+          <a class="nav-link" [routerLink]="['/home/' + theUser._id]">Home</a>
       </li>
       <li class="nav-item dropdown">
         <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -13,10 +13,10 @@
           My Courses
         </a>
         <div id="courseOptions" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['/classroom/1']">Course 1</a>
-          <a class="dropdown-item" href="#">Course 2</a>
+          <a class="dropdown-item" [routerLink]="['/classroom/1']">Python</a>
+          <a class="dropdown-item" href="#">Angular</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Add a New Course</a>
+          <!-- <a class="dropdown-item" href="#">Add a New Course</a> -->
         </div>
       </li>
     </ul>
