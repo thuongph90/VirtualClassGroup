@@ -18,7 +18,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-const config: SocketIoConfig = { url: 'http://18.223.134.15/', options: {} };
+const config: SocketIoConfig = { url: 'http://18.223.134.15:8000', options: {} };
 
 @NgModule({
   declarations: [
