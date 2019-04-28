@@ -44,6 +44,6 @@ io.on("connection", socket => {
 
 });
 
-http.listen(8000, '18.223.134.15', function () {
+http.listen(8000, function () {
     console.log("listening on port 8000");
 })
