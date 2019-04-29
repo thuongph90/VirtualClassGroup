@@ -188,38 +188,39 @@ export class HomeComponent implements OnInit {
       // console.log(data)
       let samecode = false;
       let thisClassID = "";
+      var usersintheclass =[];
+      // Find the class with the code 
       for (var i = 0; i < data['data'].length; i++) {
 
         // console.log("Classroom_code from database:", data['data'][i]['classroom_code'])
         if (data['data'][i]['classroom_code'] == this.AClass.classroom_code) {
           samecode = true;
+          usersintheclass=data['data'][i]['users'];
+          console.log("All the users in Classroom with code are :",usersintheclass)
           thisClassID = data['data'][i]['_id']
         }
       }
       if (samecode == true) {
         console.log("SameCode and ClassID is:", thisClassID)
-        // console.log(this.user)
-        console.log(this.AllClassesofUser)
-        for (var j = 0; j < this.AllClassesofUser.length; j++) {
-          // console.log(" ///////////////////For Loop through All CLasses of the user", this.AllClassesofUser)
-          for (var k = 0; k < this.AllClassesofUser[j]['users'].length; k++) {
-            if (this.AllClassesofUser[j]['users'][k]['_id'] == this.user['_id']) {
-              this.errorsameuser = true;
-              console.log("In the loop to find the user exists ")
+        for (var k = 0; k < usersintheclass.length; k++) {
+          if (usersintheclass[k]['_id'] == this.user['_id']) {
+            this.errorsameuser = true;
+            console.log("In the loop to find the user exists ", usersintheclass[k]['_id'])
 
-            }
           }
         }
+        
         if (this.errorsameuser == false) {
           let Observable = this._httpService.UpdateUserintoClassroom(this.user, thisClassID);
           Observable.subscribe(data => {
             console.log("Add Successfully", data)
-
+            this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
           })
           this.errorEnterCode = false;
         }
         else {
           console.log("User already exists in classroom")
+          this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
         }
 
       }
@@ -227,9 +228,7 @@ export class HomeComponent implements OnInit {
         console.log("Invalid Code")
         this.errorEnterCode = true
       }
-      this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
       // console.log("All Classes belong to user",this.AllClassesofUser)
-      this._router.navigate([`/classroom/${thisClassID}/${this.userID}`])
     })
   }
 

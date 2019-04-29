@@ -5,7 +5,7 @@
         <a class="nav-link" href="/home">Welcome, {{theUser.name}} <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/home/' + theUser._id]">Home</a>
+        <a class="nav-link" [routerLink]="['/home/' + theUser._id]">Home</a>
       </li>
       <li class="nav-item dropdown">
         <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -39,10 +39,10 @@
   <div style="display: flex; justify-content: center">
     <div id="chalkboard">
       <div *ngFor="let ex of allExercises">
-        <button class="chalk" (click)="selectExercise(ex)" >{{ ex.content }}</button>
+        <button class="chalk" (click)="selectExercise(ex)">{{ ex.content }}</button>
       </div>
       <div *ngFor="let item of messageArray">
-        <button class="chalk" (click)="selectExercise(item)" >{{ item.message }}</button>
+        <button class="chalk" (click)="selectExercise(item)">{{ item.message }}</button>
       </div>
     </div>
   </div>
@@ -89,17 +89,14 @@
   </ng-template>
 
   <!-- Student answer for loop -->
-  <div class="mx-auto" *ngFor="let answer of allAnswers" style="width: 90%">
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel title="{{answer.student_name}}'s Answer">
-        <ng-template ngbPanelContent>
-          {{answer.exercise_content}}
-          {{ answer.content }}
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  </div>
 
+    <div class="mx-auto" *ngFor="let each of listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow" style="width: 90%">
+      <h3>{{each.content}}</h3>
+      <div *ngFor="let item of each.answers">
+        <p>{{item.student_name}}: {{ item.content }}</p>
+      </div>
+    </div>
+  
   <div class="mx-auto" *ngFor="let item of answerArray" style="width: 90%">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
       <ngb-panel title="{{item.student.name}}'s Answer">

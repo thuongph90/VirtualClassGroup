@@ -11,24 +11,23 @@ module.exports = function(){
         image:{type: String, default:"https://i.pinimg.com/originals/85/48/ea/8548ea7bbae3129c0f397a8593765717.jpg"},
         type:{type: String, default:""}   
     },{ timestamps: true })
+    //Student's work SCHEMA:::: A
+    var StudentAnswerSchema= new mongoose.Schema({
+        student_name:{type: String},
+        content:{type: String, required:[true, "Write your answer here"]},
+    },{ timestamps: true })
     //Teacher's Exercise SCHEMA::::: Q
     var ExerciseSchema= new mongoose.Schema({
         // teacher_id:{type: String},
         content:{type: String, required:[true, "Write your question here"]},
+        answers:[StudentAnswerSchema] , 
         // answer_id: {type: String},  //Student's answer
-    },{ timestamps: true })
-    //Student's work SCHEMA:::: A
-    var StudentAnswerSchema= new mongoose.Schema({
-        student_name:{type: String},
-        exercise_content: {type: String},
-        content:{type: String, required:[true, "Write your answer here"]},
     },{ timestamps: true })
     //Classroom Schema
     var ClassRoomSchema= new mongoose.Schema({
         classroom_name: {type: String, required:[true, "Name of the Class is required"]},
         classroom_code: {type: String},
         exercises:[ExerciseSchema] ,
-        answers:[StudentAnswerSchema] , 
         users:[UserSchema]
     },{ timestamps: true })
     

@@ -43,6 +43,7 @@ export class HttpService {
     return this._http.delete(`exercises/${exercise._id}`)
   }
   DetailExercise(id) {
+    console.log("http for get exercises w/ answers",id)
     return this._http.get(`/exercises/${id}`)
   }
   UpdateExercise(body) {
@@ -96,9 +97,9 @@ export class HttpService {
   UpdateExerciseintoClassroom(body, id) {
     return this._http.put(`/exercisetoclassroom/` + id, body)
   }
-  UpdateAnswerintoClassroom(body, id) {
-    console.log('http answer to class')
-    return this._http.put(`/answertoclassroom/` + id, body)
+  UpdateAnswerintoExercise(body, id) {
+    console.log('http answer to exercise',id,"answer OBJECT", body)
+    return this._http.put(`/answertoexercise/` + id, body)
   }
   // ShowClassesofUser(body){
   //   console.log("Go To Http-Service to get all classes for user ",body)
