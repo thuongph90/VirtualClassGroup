@@ -21,6 +21,11 @@ module.exports = function (app) {
     app.put('/exercises/:id', exercises.edit) //  edit exercise
     app.get('/exercises/:id', exercises.detail) //show all the excercise 
     app.delete('/exercises/:id', exercises.delete) //delete 
+    app.route('/answertoexercise/:id')
+    .put(function (req, res) {
+        console.log("///////////////;;;;;;;;;/")
+        exercises.updateAnswer(req, res);
+    })
 
     //  // answer SECTION in class with id== ClassRoom_id
     app.post('/answers', answers.create) //  create answer
@@ -61,11 +66,7 @@ module.exports = function (app) {
     //     classroom.updateExercise(req, res)
     // })
 
-    app.route('/answertoclassroom/:id')
-        .put(function (req, res) {
-            console.log("///////////////;;;;;;;;;/")
-            classroom.updateAnswer(req, res);
-        })
+
     // app.route('/classroomofuser')
     //     .get(function (req, res) {
     //         console.log("Route to go to get classes of user")

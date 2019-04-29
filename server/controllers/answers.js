@@ -8,7 +8,7 @@ module.exports = {
 
     create: function (req, res) {
         console.log('in controller')
-        var newAnswer = new Answer({ content: req.body.content, student_name: req.body.student_name, exercise_content: req.body.exercise_content })
+        var newAnswer = new Answer({ content: req.body.content, student_name: req.body.student_name })
         newAnswer.save(function (err, newAnswer) {
             if (err) {
                 console.log('something went wrong');

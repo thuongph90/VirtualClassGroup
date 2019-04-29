@@ -11,7 +11,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   providers: [NgbModalConfig, NgbModal]
 })
 export class ClassroomComponent implements OnInit {
-  
+
   UserID = "";
   classID = "";
   theUser = {};
@@ -32,6 +32,7 @@ export class ClassroomComponent implements OnInit {
   exercise: any;
   theAnswer: any;
 
+
   constructor(
     private route: ActivatedRoute,
     private _httpService: HttpService,
@@ -41,9 +42,13 @@ export class ClassroomComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this._httpService.newMessageReceived().subscribe(data => {
-      this.messageArray.push(data);
+      if (data['class'] == this.classID) {
+        this.messageArray.push(data);
+        console.log("MESSAGE ARRAY",this.messageArray)
+      }
     });
     this._httpService.newAnswerReceived().subscribe(data => {
+
       this.answerArray.push(data);
     });
     config.backdrop = 'static';
@@ -51,6 +56,8 @@ export class ClassroomComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // this.messageArray = []
 
     this.exercise = { content: "" }
     this.theAnswer = { content: "" }
@@ -84,19 +91,20 @@ export class ClassroomComponent implements OnInit {
   // Creating exercise to push to classroom array and displaying live with sockets
   writeExercise() {
     this.message = this.exercise.content;
-    this._httpService.sendMessage({ message: this.message });
+
+    this._httpService.sendMessage({ message: this.message, class: this.classID });
     this._httpService.CreateExercise(this.exercise).subscribe(data => {
       this._httpService.UpdateExerciseintoClassroom(data['data'], this.classID).subscribe(data2 => {
       })
     })
     this.exercise = { content: "" }
   }
-  answerform= false;
-  
+  answerform = false;
+
   selectExercise(body: any) {
     console.log("body", body)
-    this.answerform= true;
-    this.exercise = body['content']
+    this.answerform = true;
+    this.exercise = body['_id']
     console.log('LOOK', this.exercise)
   }
 
@@ -106,29 +114,34 @@ export class ClassroomComponent implements OnInit {
     console.log(this.answerArray)
     console.log('in answer method')
     // Socket
-    this._httpService.sendAnswer({ student: this.theUser, ans: this.theAnswer['content'], ques: this.exercise });
+    this._httpService.sendAnswer({ student: this.theUser['name'], ans: this.theAnswer['content'], ques: this.exercise });
     var an: any;
     console.log("student name", this.theUser['name'])
     // Save to database
-    this.newanswer = { content: this.theAnswer.content, student_name: this.theUser['name'], exercise_content: this.exercise }
+    this.newanswer = { content: this.theAnswer.content, student_name: this.theUser['name'] }
     console.log(this.newanswer)
     this._httpService.CreateAnswer(this.newanswer).subscribe(data => {
       console.log("Successfully Create An Answer", data['data'])
       an = data['data']
-      this._httpService.UpdateAnswerintoClassroom(an, this.classID).subscribe(data => {
-        console.log("Add Anwer into Classroom")
+      console.log("EXERCISE ID",this.exercise)
+      this._httpService.UpdateAnswerintoExercise(an, this.exercise).subscribe(data => {
+        console.log("Add Anwer into Exercise")
       })
       this.theAnswer = { content: "" }
     });
   }
+  allexercisersIDinclass=[];
 
   showAllExercises() {
     console.log("Classes EEEEEEEEEEEEEE")
     console.log(this.theClass['exercises'])
     for (var i = 0; i < this.theClass['exercises'].length; i++) {
       this.allExercises.push(this.theClass['exercises'][i])
+      this.allexercisersIDinclass.push(this.theClass['exercises'][i]['_id'])
     }
+    console.log("All exercises' ID in this class",this.allexercisersIDinclass)
     console.log('All exercises', this.allExercises)
+    this.getExerciseDetail()
   }
 
   showAllAnswers() {
@@ -138,7 +151,20 @@ export class ClassroomComponent implements OnInit {
     }
     console.log('All answers 9999999', this.allAnswers)
   }
- 
+
+  listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow = []
+
+  getExerciseDetail(){
+    for(var i=0; i<this.allexercisersIDinclass.length; i++){
+      console.log("What the hell is this? It is class ID, ma'am",this.allexercisersIDinclass[i])
+      this._httpService.DetailExercise(this.allexercisersIDinclass[i]).subscribe(data=>{
+        // console.log("ooooooooooooooooooooooooooooooooooooooooooooooooooooo",data['data'][0])
+        this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow.push(data['data'][0])
+      })
+    }
+    console.log("----------------",this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow)
+  }
+
   // Modal //
   open(content) {
     this.modalService.open(content);

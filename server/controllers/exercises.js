@@ -44,12 +44,30 @@ module.exports = {
             }
         })
     },
+    updateAnswer: function (req, res) {
+        console.log("Controllers update Exercise into answer", req.params.id)
+        Exercise.findOne({ _id: req.params.id }, function (err, oneExercise) {
+            console.log("AAAAAAAAAAAAAAAAA",oneExercise)
+            oneExercise.answers.push(req.body);
+            oneExercise.save(function (err) {
+                // if save was successful awesome!
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log('Yay! Added answer to exercise!', oneExercise)
+                }
+            })
+        })
+    },
     detail: function (req, res) {
+        console.log("AHIHIHIHIHIHIHIHIHIHIHIH, IN CONTROLLER to get exercise detail", req.params._id)
         Exercise.find({ _id: req.params.id}, function (err, exercise) {
             if (err) {
                 console.log(err);
             }
             else {
+                console.log("Get the exercise objects", exercise)
                 res.json({ message: "Success", data: exercise })
                 // res.render('/detail', { user: user })
             }

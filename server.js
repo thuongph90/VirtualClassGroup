@@ -33,8 +33,8 @@ io.on("connection", socket => {
     console.log("Server receives socket connection.")
 
     socket.on('message', function (data) {
-        console.log(data)
-        io.emit('new message', {user: data.user, message: data.message});
+        console.log("/////////////////////////////////////// IN SOCKET",data)
+        io.emit('new message', {class: data.class, message: data.message});
     })
 
     socket.on('answer', function (data) {
