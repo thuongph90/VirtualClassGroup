@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs')
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/VirtualClassroomTwo'); //Just change database name here
+mongoose.connect('mongodb://localhost/VirtualClassroomFour'); //Just change database name here
 
 let models_path = path.join(__dirname, './../models');
 console.log('rabbit')
