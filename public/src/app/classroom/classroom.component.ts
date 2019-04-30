@@ -44,7 +44,7 @@ export class ClassroomComponent implements OnInit {
     this._httpService.newMessageReceived().subscribe(data => {
       if (data['class'] == this.classID) {
         this.messageArray.push(data);
-        console.log("MESSAGE ARRAY",this.messageArray)
+        console.log("MESSAGE ARRAY", this.messageArray)
       }
     });
     this._httpService.newAnswerReceived().subscribe(data => {
@@ -56,8 +56,6 @@ export class ClassroomComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    // this.messageArray = []
 
     this.exercise = { content: "" }
     this.theAnswer = { content: "" }
@@ -87,34 +85,39 @@ export class ClassroomComponent implements OnInit {
     console.log(this.theClass, this.theUser)
 
   }
-
+  
+  ExerciseID=""
   // Creating exercise to push to classroom array and displaying live with sockets
   writeExercise() {
     this.message = this.exercise.content;
 
     this._httpService.sendMessage({ message: this.message, class: this.classID });
     this._httpService.CreateExercise(this.exercise).subscribe(data => {
+      console.log("Create exercise to get ID",data)
+      this.ExerciseID= data['data']['_id']
       this._httpService.UpdateExerciseintoClassroom(data['data'], this.classID).subscribe(data2 => {
       })
     })
     this.exercise = { content: "" }
   }
+
   answerform = false;
 
   selectExercise(body: any) {
     console.log("body", body)
     this.answerform = true;
-    this.exercise = body['_id']
+    this.exercise = body['class']
     console.log('LOOK', this.exercise)
   }
 
+  success = false;
+
   writeAnswer() {
+    this.success = true;
     this.answerform = false;
     this.selectExercise
     console.log(this.answerArray)
     console.log('in answer method')
-    // Socket
-    this._httpService.sendAnswer({ student: this.theUser['name'], ans: this.theAnswer['content'], ques: this.exercise });
     var an: any;
     console.log("student name", this.theUser['name'])
     // Save to database
@@ -123,14 +126,18 @@ export class ClassroomComponent implements OnInit {
     this._httpService.CreateAnswer(this.newanswer).subscribe(data => {
       console.log("Successfully Create An Answer", data['data'])
       an = data['data']
-      console.log("EXERCISE ID",this.exercise)
+      // Socket
+      this._httpService.sendAnswer({ answerObject: an });
+      //
+      console.log("EXERCISE ID", this.exercise)
       this._httpService.UpdateAnswerintoExercise(an, this.exercise).subscribe(data => {
         console.log("Add Anwer into Exercise")
       })
       this.theAnswer = { content: "" }
     });
   }
-  allexercisersIDinclass=[];
+
+  allexercisersIDinclass = [];
 
   showAllExercises() {
     console.log("Classes EEEEEEEEEEEEEE")
@@ -139,7 +146,7 @@ export class ClassroomComponent implements OnInit {
       this.allExercises.push(this.theClass['exercises'][i])
       this.allexercisersIDinclass.push(this.theClass['exercises'][i]['_id'])
     }
-    console.log("All exercises' ID in this class",this.allexercisersIDinclass)
+    console.log("All exercises' ID in this class", this.allexercisersIDinclass)
     console.log('All exercises', this.allExercises)
     this.getExerciseDetail()
   }
@@ -154,20 +161,30 @@ export class ClassroomComponent implements OnInit {
 
   listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow = []
 
-  getExerciseDetail(){
-    for(var i=0; i<this.allexercisersIDinclass.length; i++){
-      console.log("What the hell is this? It is class ID, ma'am",this.allexercisersIDinclass[i])
-      this._httpService.DetailExercise(this.allexercisersIDinclass[i]).subscribe(data=>{
+  getExerciseDetail() {
+    for (var i = 0; i < this.allexercisersIDinclass.length; i++) {
+      console.log("What the hell is this? It is class ID, ma'am", this.allexercisersIDinclass[i])
+      this._httpService.DetailExercise(this.allexercisersIDinclass[i]).subscribe(data => {
         // console.log("ooooooooooooooooooooooooooooooooooooooooooooooooooooo",data['data'][0])
         this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow.push(data['data'][0])
       })
     }
-    console.log("----------------",this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow)
+    console.log("----------------", this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow)
   }
+
+  exerciseBox = true;
 
   // Modal //
   open(content) {
     this.modalService.open(content);
+  }
+
+  answering = {}
+
+  openAnswer(answerForm, body) {
+    this.selectExercise(body)
+    this.answering = body
+    this.modalService.open(answerForm);
   }
 
 }
