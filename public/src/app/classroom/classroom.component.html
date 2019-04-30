@@ -39,28 +39,15 @@
   <div style="display: flex; justify-content: center">
     <div id="chalkboard">
       <div *ngFor="let ex of allExercises">
-        <button class="chalk" (click)="selectExercise(ex)">{{ ex.content }}</button>
+        <button class="chalk" (click)="openAnswer(answerForm, ex)">{{ ex.content }}</button>
       </div>
       <div *ngFor="let item of messageArray">
-        <button class="chalk" (click)="selectExercise(item)">{{ item.message }}</button>
+        <button class="chalk" (click)="openAnswer(answerForm, item)">{{ item.message }}</button>
       </div>
     </div>
   </div>
 
   <hr>
-
-  <!-- Student form -->
-  <div class="container-fluid" *ngIf="studentMode">
-    <form (submit)="writeAnswer()" *ngIf="answerform">
-      <br>
-      <input type="text" class="form-control" name="theAnswer.content" [(ngModel)]="theAnswer.content"
-        placeholder=" Type your answer here">
-      <br>
-      <div style="text-align: right">
-        <input id="enterAnswer" type="submit" value="Post">
-      </div>
-    </form>
-  </div>
 
   <!-- Teacher form -->
   <div class="container-fluid" *ngIf="teacherMode">
@@ -75,37 +62,63 @@
     </form>
   </div>
 
-  <!-- Modal -->
-  <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{theClass.classroom_name}} students:</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" *ngFor="let student of theStudents">
-      <p>{{student.name}}</p>
-    </div>
-  </ng-template>
+  <!-- STUDENT ANSWERS FOR LOOP -->
 
-  <!-- Student answer for loop -->
-
-    <div class="mx-auto" *ngFor="let each of listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow" style="width: 90%">
-      <h3>{{each.content}}</h3>
-      <div *ngFor="let item of each.answers">
-        <p>{{item.student_name}}: {{ item.content }}</p>
-      </div>
+  <!-- Database -->
+  <div class="mx-auto" *ngFor="let each of listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow"
+    style="width: 90%">
+    <h5>{{each.content}}</h5>
+    <div *ngFor="let item of each.answers">
+      <p><span style="font-weight: bold">{{item.student_name}}:</span> {{ item.content }}</p>
+      <p *ngFor="let answer of answerArray"><span style="font-weight: bold">{{answer.student_name}}:</span> {{ answer.content }}</p>
     </div>
-  
-  <div class="mx-auto" *ngFor="let item of answerArray" style="width: 90%">
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel title="{{item.student.name}}'s Answer">
-        <ng-template ngbPanelContent>
-          <span style="font-weight: bold">{{ item.ques }}: </span>
-          {{ item.ans }}
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
+  </div>
+
+  <!-- Sockets -->
+  <div class="mx-auto" *ngFor="let each of answerArray"
+    style="width: 90%">
+    <h5>{{each}}</h5>
+    <!-- <div *ngFor="let item of each.answers">
+      <p><span style="font-weight: bold">{{item.student_name}}:</span> {{ item.content }}</p>
+      <p *ngFor="let answer of answerArray"><span style="font-weight: bold">{{answer.name}}:</span> {{ answer.ans }}</p>
+    </div> -->
   </div>
 
 </div>
+
+<!-- Modals -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{theClass.classroom_name}} students:</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngFor="let student of theStudents">
+    <p>{{student.name}}</p>
+  </div>
+</ng-template>
+
+<ng-template #answerForm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Question: {{answering.content}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="studentMode">
+    <h5 *ngIf="success" style="color: green">Good job! Answer posted!</h5>
+    <form (submit)="writeAnswer()" *ngIf="answerform">
+      <br>
+      <input type="text" class="form-control" name="theAnswer.content" [(ngModel)]="theAnswer.content"
+        placeholder=" Type your answer here">
+      <br>
+      <div style="text-align: right">
+        <input id="enterAnswer" type="submit" value="Post">
+      </div>
+    </form>
+  </div>
+  <div class="modal-body" *ngIf="teacherMode">
+    <h5>You're the teacher, silly!</h5>
+  </div>
+</ng-template>

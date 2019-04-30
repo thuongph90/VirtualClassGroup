@@ -10,8 +10,8 @@
     background: darkslategray;
     color: white;
     font-weight: bold;
-    padding: 15px;
-    overflow-y: scroll;
+    padding: 15px;    
+    overflow-y: auto
 }
 
 #enterAnswer{

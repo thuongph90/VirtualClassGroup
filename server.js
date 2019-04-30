@@ -39,7 +39,7 @@ io.on("connection", socket => {
 
     socket.on('answer', function (data) {
         console.log(data)
-        io.emit('new answer', {student: data.student, ans: data.ans, ques: data.ques});
+        io.emit('new answer', {answerObject: data});
     })
 
 });
