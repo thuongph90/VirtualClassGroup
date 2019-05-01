@@ -9,62 +9,59 @@ declare var $: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   LogIn = true;
   Register = false;
+
   newUser: any;
   LoginUser: any;
   errorname: any;
   erroremail: any;
   errorpassword: any;
+
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
     private _router: Router) { }
 
   ngOnInit() {
-    this.newUser={name: '', email:'', password: ''}
-    this.LoginUser={email:'', password:''}
+
+    this.newUser = { name: '', email: '', password: '' }
+    this.LoginUser = { email: '', password: '' }
 
   }
+
+  // METHODS
+
   SignUp() {
     this.LogIn = false;
     this.Register = true;
   }
-  SignIn(){
-    this.LogIn= true;
-    this.Register= false;
+
+  SignIn() {
+    this.LogIn = true;
+    this.Register = false;
   }
-  OnCreateUser(){
-    console.log("AHIHIHIHIHIHI===========")
-    console.log(this.newUser)
-    this._httpService.CreateUser(this.newUser).subscribe(data => { 
-      console.log(data)
-      console.log('here?')
-      if(data['error']!=null){
-        console.log(data['error'])
-        this.errorname= data['error']['errors']['name']['message'];
-        this.erroremail=data['error']['errors']['email']['message'];
-        this.errorpassword=data['error']['errors']['password']['message']
-        // this.errormessage= data['error']['errors']['name']['message']
+
+  OnCreateUser() {
+    this._httpService.CreateUser(this.newUser).subscribe(data => {
+      if (data['error'] != null) {
+        this.errorname = data['error']['errors']['name']['message'];
+        this.erroremail = data['error']['errors']['email']['message'];
+        this.errorpassword = data['error']['errors']['password']['message']
       }
-      else{
-        console.log(data)
-        this.newUser={name: '', email:'', password: ''}
-        console.log("--------------------------------ID user")
-        console.log(data['data']._id)
+      else {
+        this.newUser = { name: '', email: '', password: '' }
         this._router.navigate([`/home/${data['data']._id}`])
       }
     })
   }
 
-  OnLoginUser(){
-    console.log(this.LoginUser)
-    this._httpService.LogIn(this.LoginUser).subscribe(data=>{
-      if(data['error']!= null){
-        console.log(data['error'])
+  OnLoginUser() {
+    this._httpService.LogIn(this.LoginUser).subscribe(data => {
+      if (data['error'] != null) {
       }
-      else{
-        console.log(data);
+      else {
         this._router.navigate([`/home/${data['data']._id}`])
       }
     })

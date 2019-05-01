@@ -1,5 +1,4 @@
 <div class="d-flex" id="wrapper">
-
   <!-- Sidebar -->
   <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="sidebar-heading" style="text-align: center">&nbsp;Canary
@@ -17,7 +16,6 @@
         </div>
       </div>
     </div>
-
     <button type="button" class="btn btn-outline-warning" (click)="is_Collapsed = !is_Collapsed"
       [attr.aria-expanded]="!is_Collapsed" aria-controls="students" style="width:100%">
       Students
@@ -39,20 +37,15 @@
 
   </div>
   <!-- /#sidebar-wrapper -->
-
   <!-- Page Content -->
   <div id="page-content-wrapper">
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <button id="menu-toggle" style="background: transparent; border: none"><img
           src="https://cdn0.iconfinder.com/data/icons/cartoon-birds/50/47-128.png" alt="canary toggle menu"
           id="canary"></button>
-
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
+        <span class="navbar-toggler-icon"></span></button>
       <!-- NavBar Top -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -87,21 +80,18 @@
         </ul>
       </div>
       <!-- End NavBar Top -->
-
     </nav>
-
-
     <div class="container-fluid">
       <h2 class="mt-4" style="color: #FFC107; text-align: center">Welcome to Canary!</h2>
       <br>
-      <!-- Student Enter the Code to join Class -->
+      <!-- Student enters code to join classroom -->
       <div class="row">
         <div *ngIf='Student' class="col">
           <p> Please Enter the access code from your teacher to join class.</p>
           <form (submit)="OnEnterClassroombyCode()">
             <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
-            <input type="text" name="AClass.classroom_code" class="form-control" placeholder="e.g. MwPIb"
-              [(ngModel)]="AClass.classroom_code"
+            <input type="text" name="aClass.classroom_code" class="form-control" placeholder="e.g. MwPIb"
+              [(ngModel)]="aClass.classroom_code"
               style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
             <span *ngIf="errorEnterCode" style="color: red">Please enter the correct code.</span><br>
             <span *ngIf="errorsameuser" style="color: red">You are already in this class.</span><br>
@@ -110,7 +100,7 @@
           </form>
         </div>
         <br>
-        <!-- Teacher get the code of the class for student  -->
+        <!-- Teacher gets the code of the classroom for student  -->
         <div *ngIf='Teacher' class="col">
           <h4>Get the access code for your class</h4>
           <p>Please enter the class's name to receive the access code</p>
@@ -151,12 +141,9 @@
         </form>
       </div>
       <!-- End Of New Course Form -->
-
-
     </div>
   </div>
   <!-- /#page-content-wrapper -->
-
 </div>
 <!-- /#wrapper -->
 
@@ -174,22 +161,6 @@
               <div id="board">
                 <div id="history"></div>
                 <div id="msgBoard">
-                  <div class="yourChatMsgs">
-                    <p><span style="font-weight: bold">Jolie:</span> &nbsp; I am doing the
-                      backend.</p>
-                  </div>
-                  <div class="theirChatMsgs">
-                    <p><span style="font-weight: bold">Chris:</span> &nbsp; I am doing the login
-                      and register.</p>
-                  </div>
-                  <div class="yourChatMsgs">
-                    <p><span style="font-weight: bold">Jolie:</span> &nbsp; I am doing the
-                      backend.</p>
-                  </div>
-                  <div class="theirChatMsgs">
-                    <p><span style="font-weight: bold">Chris:</span> &nbsp; I am doing the login
-                      and register.</p>
-                  </div>
                   <div class="yourChatMsgs">
                     <p><span style="font-weight: bold">Jolie:</span> &nbsp; I am doing the
                       backend.</p>

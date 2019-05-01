@@ -28,18 +28,70 @@ app.use(flash());
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+var mongoose = require('mongoose');
+require('./server/models/models.js');
+var Exercise = mongoose.model('Exercise');
+var ClassRoom = mongoose.model('ClassRoom');
+var Answer = mongoose.model('StudentAnswer');
+
 io.on("connection", socket => {
 
     console.log("Server receives socket connection.")
 
     socket.on('message', function (data) {
-        console.log("/////////////////////////////////////// IN SOCKET",data)
-        io.emit('new message', {class: data.class, message: data.message});
+        createWithSockets(data);
+        // Fxn
+        function createWithSockets(data) {
+            var newExercise = new Exercise({ content: data.message.content })
+            newExercise.save(function (err, newExercise) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    updateExercise(newExercise, data.class)
+                    io.emit('new message', { message: newExercise, class: data.class });
+                }
+            })
+        }
+        // Fxn
+        function updateExercise(data, id) {
+            ClassRoom.findOne({ _id: id }, function (err, oneclass) {
+                oneclass.exercises.push(data);
+                oneclass.save(function (err) {
+                    if (err) {
+                        console.log(err)
+                    }
+                })
+            })
+        }
     })
 
     socket.on('answer', function (data) {
-        console.log(data)
-        io.emit('new answer', {answerObject: data});
+        createWithSockets(data);
+        // Fxn
+        function createWithSockets(data) {
+            var newAnswer = new Answer({ content: data.answerObject.content, student_name: data.answerObject.student_name, student_id: data.answerObject.student_id })
+            newAnswer.save(function (err, newAnswer) {
+                if (err) {
+                    console.log(err);
+                }           
+                else {
+                    updateAnswer(newAnswer, data.exID)
+                    io.emit('new answer', { answerObject: newAnswer, exID: data.exID });
+                }
+            })
+        }
+        // Fxn
+        function updateAnswer(data, id) {
+            Exercise.findOne({ _id: id }, function (err, one_exercise) {
+                one_exercise.answers.push(data);
+                one_exercise.save(function (err) {
+                    if (err) {
+                        console.log(err)
+                    }
+                })
+            })
+        }
     })
 
 });

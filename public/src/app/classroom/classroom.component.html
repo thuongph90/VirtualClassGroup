@@ -16,7 +16,6 @@
           <a class="dropdown-item" [routerLink]="['/classroom/1']">Python</a>
           <a class="dropdown-item" href="#">Angular</a>
           <div class="dropdown-divider"></div>
-          <!-- <a class="dropdown-item" href="#">Add a New Course</a> -->
         </div>
       </li>
     </ul>
@@ -36,18 +35,22 @@
     </button>
   </div>
 
+  <!-- Chalkboard -->
   <div style="display: flex; justify-content: center">
     <div id="chalkboard">
       <div *ngFor="let ex of allExercises">
         <button class="chalk" (click)="openAnswer(answerForm, ex)">{{ ex.content }}</button>
       </div>
       <div *ngFor="let item of messageArray">
-        <button class="chalk" (click)="openAnswer(answerForm, item)">{{ item.message }}</button>
+        <button class="chalk" (click)="openAnswer(answerForm, item.message)">{{ item.message.content }}</button>
       </div>
     </div>
   </div>
 
   <hr>
+
+  <!-- *** Class mode *** -->
+  <div *ngIf="classMode">
 
   <!-- Teacher form -->
   <div class="container-fluid" *ngIf="teacherMode">
@@ -64,29 +67,54 @@
 
   <!-- STUDENT ANSWERS FOR LOOP -->
 
-  <!-- Database -->
-  <div class="mx-auto" *ngFor="let each of listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow"
-    style="width: 90%">
-    <h5>{{each.content}}</h5>
-    <div *ngFor="let item of each.answers">
-      <p><span style="font-weight: bold">{{item.student_name}}:</span> {{ item.content }}</p>
-      <p *ngFor="let answer of answerArray"><span style="font-weight: bold">{{answer.student_name}}:</span> {{ answer.content }}</p>
+  <!-- Socket  -->
+  <div *ngIf="banana">
+    <div class="mx-auto" *ngFor="let thing of messageArray" style="width: 90%">
+      <h5>{{ thing.message.content }}</h5>
+      <div *ngFor="let each of answerArray">
+        <p *ngIf="thing.message._id == each.exID"><span
+            style="font-weight: bold">{{each.answerObject.student_name}}:</span>
+          {{ each.answerObject.content }}</p>
+      </div>
     </div>
   </div>
 
-  <!-- Sockets -->
-  <div class="mx-auto" *ngFor="let each of answerArray"
-    style="width: 90%">
-    <h5>{{each}}</h5>
-    <!-- <div *ngFor="let item of each.answers">
-      <p><span style="font-weight: bold">{{item.student_name}}:</span> {{ item.content }}</p>
-      <p *ngFor="let answer of answerArray"><span style="font-weight: bold">{{answer.name}}:</span> {{ answer.ans }}</p>
-    </div> -->
-  </div>
+  <!-- Database -->
 
+  <div class="mx-auto" *ngFor="let each of listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow"
+    style="width: 90%">
+    <!-- Exercises -->
+    <h5>{{each.content}}</h5>
+    <div *ngFor="let item of each.answers">
+      <!-- Answers -->
+      <p><span style="font-weight: bold">{{item.student_name}}:</span> {{ item.content }}</p>
+    </div>
+    <!-- // Socket of answers -->
+    <div *ngFor="let answer of answerArray">
+      <p *ngIf="each._id == answer.exID "><span style="font-weight: bold">{{answer.answerObject.student_name}}:</span>
+        {{ answer.answerObject.content }}</p>
+    </div>
+  </div>
 </div>
 
-<!-- Modals -->
+</div>
+<!-- *** End Class Mode *** -->
+
+<!-- Student Details Mode -->
+<div *ngIf="studentDetailMode">
+  <h1>{{oneStudent.name}}</h1>
+  <div *ngFor="let x of oneStudentExercises">
+    <h5>{{x.content}}</h5>
+      <div *ngFor="let y of x.answers">
+        <p *ngIf="oneStudent._id == y.student_id">{{y.content}}</p>
+      </div>
+  </div>
+</div>
+<!-- Student Details Mode -->
+
+<!-- MODALS -->
+
+<!-- Student List -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{theClass.classroom_name}} students:</h4>
@@ -95,10 +123,11 @@
     </button>
   </div>
   <div class="modal-body" *ngFor="let student of theStudents">
-    <p>{{student.name}}</p>
+    <button (click)="studentDetail(student._id)" (click)="d('Cross click')">{{student.name}}</button>
   </div>
 </ng-template>
 
+<!-- Answer form -->
 <ng-template #answerForm let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Question: {{answering.content}}</h4>
