@@ -14,24 +14,40 @@ export class ClassroomComponent implements OnInit {
 
   UserID = "";
   classID = "";
+  ExerciseID = ""
+  exerciseID = "";
+  
+  answering = {};
   theUser = {};
   theClass = {};
+  anExercise = {};
+  oneStudent = {}
+
   theStudents = [];
   allExercises = [];
   allAnswers = [];
+  allexercisersIDinclass = [];
+  oneStudentExercises = []
+  listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow = []
+  
+  exerciseBox = true;
+  classMode = true;
+  studentDetailMode = false;
   teacherMode = false;
   studentMode = false;
+  answerform = false;
+  success = false;
+  banana = false;
+
   newanswer: any;
-  anExercise = {};
+  exercise: any;
+  theAnswer: any;
 
   name: String;
   message: String;
   answer: String;
   messageArray: Array<{ user: String, message: String }> = [];
   answerArray: Array<{ student: String, ans: String }> = [];
-  exercise: any;
-  theAnswer: any;
-
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +60,12 @@ export class ClassroomComponent implements OnInit {
     this._httpService.newMessageReceived().subscribe(data => {
       if (data['class'] == this.classID) {
         this.messageArray.push(data);
-        console.log("MESSAGE ARRAY", this.messageArray)
       }
     });
-    this._httpService.newAnswerReceived().subscribe(data => {
 
+    this._httpService.newAnswerReceived().subscribe(data => {
       this.answerArray.push(data);
+      this.banana = true;
     });
     config.backdrop = 'static';
     config.keyboard = false;
@@ -57,9 +73,13 @@ export class ClassroomComponent implements OnInit {
 
   ngOnInit() {
 
+    this.banana = false;
+
+    this.messageArray = [];
+    this.answerArray = [];
+
     this.exercise = { content: "" }
     this.theAnswer = { content: "" }
-    this.newanswer = { content: "", student_name: "", exercise_content: "" }
 
     this._route.params.subscribe((params: Params) => {
       this.UserID = params['userID']
@@ -82,109 +102,71 @@ export class ClassroomComponent implements OnInit {
         this.showAllAnswers()
       })
     })
-    console.log(this.theClass, this.theUser)
 
   }
-  
-  ExerciseID=""
-  // Creating exercise to push to classroom array and displaying live with sockets
+
+  // METHODS
+
   writeExercise() {
     this.message = this.exercise.content;
-
-    this._httpService.sendMessage({ message: this.message, class: this.classID });
-    this._httpService.CreateExercise(this.exercise).subscribe(data => {
-      console.log("Create exercise to get ID",data)
-      this.ExerciseID= data['data']['_id']
-      this._httpService.UpdateExerciseintoClassroom(data['data'], this.classID).subscribe(data2 => {
-      })
-    })
+    this._httpService.sendMessage({ message: this.exercise, class: this.classID })
     this.exercise = { content: "" }
   }
 
-  answerform = false;
-
-  selectExercise(body: any) {
-    console.log("body", body)
-    this.answerform = true;
-    this.exercise = body['class']
-    console.log('LOOK', this.exercise)
-  }
-
-  success = false;
-
-  writeAnswer() {
-    this.success = true;
-    this.answerform = false;
-    this.selectExercise
-    console.log(this.answerArray)
-    console.log('in answer method')
-    var an: any;
-    console.log("student name", this.theUser['name'])
-    // Save to database
-    this.newanswer = { content: this.theAnswer.content, student_name: this.theUser['name'] }
-    console.log(this.newanswer)
-    this._httpService.CreateAnswer(this.newanswer).subscribe(data => {
-      console.log("Successfully Create An Answer", data['data'])
-      an = data['data']
-      // Socket
-      this._httpService.sendAnswer({ answerObject: an });
-      //
-      console.log("EXERCISE ID", this.exercise)
-      this._httpService.UpdateAnswerintoExercise(an, this.exercise).subscribe(data => {
-        console.log("Add Anwer into Exercise")
-      })
-      this.theAnswer = { content: "" }
-    });
-  }
-
-  allexercisersIDinclass = [];
-
-  showAllExercises() {
-    console.log("Classes EEEEEEEEEEEEEE")
-    console.log(this.theClass['exercises'])
-    for (var i = 0; i < this.theClass['exercises'].length; i++) {
-      this.allExercises.push(this.theClass['exercises'][i])
-      this.allexercisersIDinclass.push(this.theClass['exercises'][i]['_id'])
-    }
-    console.log("All exercises' ID in this class", this.allexercisersIDinclass)
-    console.log('All exercises', this.allExercises)
-    this.getExerciseDetail()
-  }
-
-  showAllAnswers() {
-    console.log("Answers EEEEEEEEEEEEEE")
-    for (var i = 0; i < this.theClass['answers'].length; i++) {
-      this.allAnswers.push(this.theClass['answers'][i])
-    }
-    console.log('All answers 9999999', this.allAnswers)
-  }
-
-  listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow = []
-
-  getExerciseDetail() {
-    for (var i = 0; i < this.allexercisersIDinclass.length; i++) {
-      console.log("What the hell is this? It is class ID, ma'am", this.allexercisersIDinclass[i])
-      this._httpService.DetailExercise(this.allexercisersIDinclass[i]).subscribe(data => {
-        // console.log("ooooooooooooooooooooooooooooooooooooooooooooooooooooo",data['data'][0])
-        this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow.push(data['data'][0])
-      })
-    }
-    console.log("----------------", this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow)
-  }
-
-  exerciseBox = true;
-
-  // Modal //
   open(content) {
     this.modalService.open(content);
   }
 
-  answering = {}
-
   openAnswer(answerForm, body) {
-    this.selectExercise(body)
-    this.answering = body
+    this.answerform = true;
+    this.exerciseID = body['_id']
+    this.answering = body;
     this.modalService.open(answerForm);
+  }
+
+  writeAnswer() {
+    this.success = true;
+    this.answerform = false;
+    this.newanswer = { content: this.theAnswer.content, student_name: this.theUser['name'], student_id: this.theUser['_id'] }
+    this._httpService.sendAnswer({ answerObject: this.newanswer, exID: this.exerciseID });
+  }
+
+  showAllExercises() {
+    for (var i = 0; i < this.theClass['exercises'].length; i++) {
+      this.allExercises.push(this.theClass['exercises'][i])
+      this.allexercisersIDinclass.push(this.theClass['exercises'][i]['_id'])
+    }
+    this.getExerciseDetail()
+  }
+
+  showAllAnswers() {
+    for (var i = 0; i < this.theClass['answers'].length; i++) {
+      this.allAnswers.push(this.theClass['answers'][i])
+    }
+  }  
+
+  getExerciseDetail() {
+    for (var i = 0; i < this.allexercisersIDinclass.length; i++) {
+      this._httpService.DetailExercise(this.allexercisersIDinclass[i]).subscribe(data => {
+        this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow.push(data['data'][0])
+      })
+    }
+  }
+
+  studentDetail(id: string) {
+    this.oneStudentExercises = []
+    this._httpService.DetailUser(id).subscribe(data => {
+      this.oneStudent = data['data'][0]
+      for (var i = 0; i < this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow.length; i++) {
+        for (var j = 0; j < this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow[i]['answers'].length; j++) {
+          if (this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow[i]['answers'][j]['student_id'] == id) {
+            this.oneStudentExercises.push(this.listOfExercisesWithAnswersForThisCurrentClassThatTheUserIsInRightNow[i])
+          }
+        }
+      }
+      this.classMode = false;
+      this.studentDetailMode = true;
+    })
   }
 
 }

@@ -4,7 +4,6 @@
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li>
@@ -22,28 +21,24 @@
     </ul>
   </div>
 </nav>
-
 <section class="login-block">
   <div class="container">
     <div class="row">
-      <!-- login -->
+      <!-- LOGIN -->
       <div class="col-md-4 login-sec" *ngIf="LogIn">
         <h2 class="text-center">Login</h2>
         <form class="login-form" (submit)="OnLoginUser()" method="post">
-
           <div class="form-group">
             <label for="exampleInputEmail1" class="text-uppercase">Email &nbsp;</label>
             <span class="input-group-addon"> <i class="fa fa-envelope"></i></span>
             <input type="text" name="LoginUser.email" [(ngModel)]="LoginUser.email" class="form-control" placeholder="">
           </div>
-
           <div class="form-group">
             <label for="exampleInputPassword1" class="text-uppercase">Password &nbsp;</label>
             <span class="input-group-addon"> <i class="fa fa-lock"></i></span>
             <input type="password" name="LoginUser.password" [(ngModel)]="LoginUser.password" class="form-control"
               placeholder="">
           </div>
-
           <div class="form-check">
             <label class="form-check-label">
               <input type="checkbox" class="form-check-input">
@@ -51,9 +46,7 @@
             </label>
             <button type="submit" class="btn btn-login float-right">Submit</button>
           </div>
-
         </form>
-
         <div class="copy-text">
           <div class="d-flex justify-content-center links">
             Don't have an account?<button (click)="SignUp()"
@@ -64,7 +57,7 @@
           </div>
         </div>
       </div>
-      <!-- end Login -->
+      <!-- End Login -->
       <!-- REGISTER -->
       <div class="col-md-4 login-sec" *ngIf="Register">
         <h2 class="text-center">Register</h2>
@@ -78,7 +71,6 @@
               <label for="exampleInputEmail1" class="text-uppercase">You are: &nbsp;</label>
               <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
               <select class="custom-select" name="newUser.type" [(ngModel)]="newUser.type" required>
-                  <!-- <option selected>Choose...</option> -->
                   <option value="Teacher">Teacher</option>
                   <option value="Student">Student</option>
               </select>
@@ -88,14 +80,12 @@
             <span class="input-group-addon"> <i class="fa fa-envelope"></i></span>
             <input type="text" name="newUser.email" [(ngModel)]="newUser.email" class="form-control" placeholder="">
           </div>
-
           <div class="form-group">
             <label for="exampleInputPassword1" class="text-uppercase">Password &nbsp;</label>
             <span class="input-group-addon"> <i class="fa fa-lock"></i></span>
             <input type="password" name="newUser.password" [(ngModel)]="newUser.password" class="form-control"
               placeholder="">
           </div>
-
           <div class="form-check">
             <label class="form-check-label">
               <input type="checkbox" class="form-check-input">
@@ -103,19 +93,15 @@
             </label>
             <button type="submit" class="btn btn-login float-right">Submit</button>
           </div>
-
         </form>
-
         <div class="copy-text">
           <div class="d-flex justify-content-center links">
             Have an account already?<button (click)="SignIn()"
               style="background: transparent; border: none; text-decoration: underline; color: blue">Log In</button>
           </div>
-
         </div>
       </div>
-      <!-- end Resgister -->
-
+      <!-- End Register -->
       <div class="col-md-8 banner-sec">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
