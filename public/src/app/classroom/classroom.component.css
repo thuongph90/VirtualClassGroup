@@ -25,3 +25,16 @@
     color: white;
     font-weight: bold;
 }
+
+#studentDetails{
+    background: palegoldenrod;
+    border: 1px solid black;
+    width: 90%;
+    padding: 2%;
+}
+
+.paper{
+    height: 2%;
+    border-bottom: 1px solid blue;
+    padding: 1%;
+}

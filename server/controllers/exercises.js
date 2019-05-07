@@ -7,7 +7,6 @@ var Exercise = mongoose.model('Exercise');
 module.exports = {
 
     create: function (req, res) {
-        console.log('in controller')
         var newExercise = new Exercise({ content: req.body.content })
         newExercise.save(function (err, newExercise) {
             if (err) {
