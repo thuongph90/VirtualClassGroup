@@ -1,7 +1,8 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading" style="text-align: center">&nbsp;Canary
+  <div class="bg-white border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading" style="text-align: center; margin-top: -5%;"><img id="CanaryLogo"
+        src="/assets/CanaryLogo.jpg" alt="logo">
     </div>
     <div class="list-group list-group-flush"></div>
     <button type="button" class="btn btn-outline-warning" (click)="isCollapsed = !isCollapsed"
@@ -38,8 +39,8 @@
   </div>
   <!-- /#sidebar-wrapper -->
   <!-- Page Content -->
-  <div id="page-content-wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div id="page-content-wrapper" class="mainPage">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
       <button id="menu-toggle" style="background: transparent; border: none"><img
           src="https://cdn0.iconfinder.com/data/icons/cartoon-birds/50/47-128.png" alt="canary toggle menu"
           id="canary"></button>
@@ -64,80 +65,96 @@
               <a class="dropdown-item" [routerLink]="['/']">Logout</a>
             </div>
           </li>
-          <li class="nav-item dropdown">
-            <a id="myCourses" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              My Courses
-            </a>
-            <div id="courseOptions" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['/classroom/1']">History</a>
-              <a class="dropdown-item" href="#">English</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" (click)="onNewCourse(user._id)" *ngIf="Teacher">Add a New Class</a>
-              <a class="dropdown-item" (click)="onNewCourse(user._id)" *ngIf="Student">Join a new class</a>
-            </div>
-          </li>
         </ul>
       </div>
       <!-- End NavBar Top -->
     </nav>
     <div class="container-fluid">
-      <h2 class="mt-4" style="color: #FFC107; text-align: center">Welcome to Canary!</h2>
       <br>
       <!-- Student enters code to join classroom -->
       <div class="row">
-        <div *ngIf='Student' class="col">
-          <p> Please Enter the access code from your teacher to join class.</p>
-          <form (submit)="OnEnterClassroombyCode()">
-            <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
-            <input type="text" name="aClass.classroom_code" class="form-control" placeholder="e.g. MwPIb"
-              [(ngModel)]="aClass.classroom_code"
-              style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
-            <span *ngIf="errorEnterCode" style="color: red">Please enter the correct code.</span><br>
-            <span *ngIf="errorsameuser" style="color: red">You are already in this class.</span><br>
-            <input type="submit" value="Submit"
-              style="border-radius: 10px; margin-left: 33%; background-color: #ffc107" />
-          </form>
-        </div>
+
+
         <br>
         <!-- Teacher gets the code of the classroom for student  -->
-        <div *ngIf='Teacher' class="col">
-          <h4>Get the access code for your class</h4>
-          <p>Please enter the class's name to receive the access code</p>
-          <form (submit)="OnGetCode()">
-            <button style="border: none; padding: 2px; color: black" type="button"
-              class="btn btn-outline-secondary mr-2" placement="right"
-              ngbPopover="Enter the name of the class to get the access code." popoverTitle="Access Code">
-              <label for="exampleInputName1" class="text-uppercase">Class name: &nbsp;</label>
+        <div class="col">
+          <p *ngIf='Teacher' style="text-align: center">
+            <button id="veryRound" type="button" class="btn btn-warning" (click)="isCollapse = !isCollapse"
+              [attr.aria-expanded]="!isCollapse" aria-controls="collapseExample">
+              Get the access code for your class
             </button>
-            <input type="text" name="currentClass.classroom_name" class="form-control" placeholder=" e.g. Math"
-              [(ngModel)]="currentClass.classroom_name"
-              style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
-            <span *ngIf="errorClassname" style="color: red"> Sorry, Invalid Class's name. Please Enter your classname
-              again or Go into your account for further information</span><br>
-            <input type="submit" value="Enter"
-              style="border-radius: 10px; margin-left: 34%; background-color: #ffc107" />
-          </form>
-          <div *ngIf='getcodedone'>
-            <h3>{{ classname}} has code: <span style="color: red">{{classcode}}</span> </h3>
+          </p>
+
+          <div class="mx-auto" id="collapseExample" [ngbCollapse]="isCollapse" style="width: 50%;">
+            <div style="border-radius: 20px" class="card">
+              <div class="card-body">
+                <p>Please enter the name of the class to receive the access code:</p>
+                <form (submit)="OnGetCode()">
+                  <button style="border: none; padding: 2px; color: black" type="button"
+                    class="btn btn-outline-secondary mr-2" placement="right"
+                    ngbPopover="Enter the name of the class to get the access code." popoverTitle="Access Code">
+                    <label for="exampleInputName1" class="text-uppercase">Class name: &nbsp;</label>
+                  </button>
+                  <input type="text" name="currentClass.classroom_name" class="form-control" placeholder=" e.g. Math"
+                    [(ngModel)]="currentClass.classroom_name"
+                    style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
+                  <span *ngIf="errorClassname" style="color: red"> Sorry, Invalid Class's name. Please Enter your
+                    classname
+                    again or Go into your account for further information</span><br>
+                  <input type="submit" value="Enter" style="border-radius: 10px; background-color: #ffc107" />
+                </form>
+                <div *ngIf='getcodedone'>
+                  <h3>{{ classname}} has code: <span style="color: red">{{classcode}}</span> </h3>
+                </div>
+              </div>
+            </div>
           </div>
+          <br>
+          <p *ngIf="Teacher" style="text-align: center">
+            <button id="veryRound" type="button" class="btn btn-warning" (click)="onNewCourse(user._id)">
+              Add a new class
+            </button>
+          </p>
+
+          <p *ngIf='Student' style="text-align: center">
+            <button id="veryRound" type="button" class="btn btn-warning" (click)="Callopse = !Callopse"
+              [attr.aria-expanded]="!Callopse" aria-controls="collapseExample">
+              Join a private class
+            </button>
+          </p>
+
+          <div class="mx-auto" id="collapseExample" id="addCourse" [ngbCollapse]="Callopse">
+            <p> Please enter the access code from your teacher to join class.</p>
+            <form (submit)="OnEnterClassroombyCode()">
+              <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
+              <input type="text" name="aClass.classroom_code" class="form-control" placeholder="e.g. MwPIb"
+                [(ngModel)]="aClass.classroom_code"
+                style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
+              <span *ngIf="errorEnterCode" style="color: red">Please enter the correct code.</span><br>
+              <span *ngIf="errorsameuser" style="color: red">You are already in this class.</span><br>
+              <input type="submit" value="Submit"
+                style="border-radius: 10px; background-color: #ffc107" />
+            </form>
+          </div>
+
         </div>
+
       </div>
+
       <!-- New Course Form -->
-      <div id="addCourseForm" class="form-group">
-        <form *ngIf='showAddCourseForm' (submit)="onSumbitClassroom()">
+      <div id="addCourseForm" class="mx-auto">
+        <form *ngIf='showAddCourseForm' (submit)="onSumbitClassroom()" style="padding-bottom: 10px">
           <hr>
           <h4>Create a private class</h4>
-          <p>Classes are where you can communicate with your students. They are best when organized around topic-english
-            pronunciation#, for example. </p>
+          <p>Classes are where you can interact with your students. Class names are most effective when named
+            specifically e.g. 'English Pronunciation' v.s. English. </p>
           <label for="exampleInputName1" class="text-uppercase">Class Name : &nbsp;</label>
           <span *ngIf="errorClassroomName" style="color: red">Classroom Name already exists or empty</span>
           <input type="text" name="newClassroom.classroom_name" class="form-control"
             placeholder="e.g. English pronunciation..." [(ngModel)]="newClassroom.classroom_name" required
             style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
           <br>
-          <input type="submit" value="Create" value="Submit"
-            style="border-radius: 10px; margin-left: 33%; background-color: #ffc107" />
+          <input type="submit" value="Create" value="Submit" style="border-radius: 10px; background-color: #ffc107" />
         </form>
       </div>
       <!-- End Of New Course Form -->

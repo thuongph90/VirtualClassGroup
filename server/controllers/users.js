@@ -22,7 +22,6 @@ module.exports = {
         let hashpw = bcrypt.hashSync(req.body.password, 10);
         var newUser = new User({ name: req.body.name, email: req.body.email, password: hashpw, type: req.body.type })
         newUser.save(function (err, user) {
-            console.log('(((((((((((')
             if (err) {
                 console.log(err);
                 res.json({ message: "Error", error: err })

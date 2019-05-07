@@ -37,6 +37,8 @@ export class HomeComponent implements OnInit {
 
   public isCollapsed = true;
   public is_Collapsed = true;
+  public isCollapse = true;
+  public Callopse = true;
 
   constructor(
     private _httpService: HttpService,
@@ -94,7 +96,12 @@ export class HomeComponent implements OnInit {
   }
 
   onNewCourse() {
-    this.showAddCourseForm = true;
+    if(this.showAddCourseForm == true){
+      this.showAddCourseForm = false;
+    }
+    else{
+      this.showAddCourseForm = true;
+    }
   }
 
   randomCodeGenerater() {
