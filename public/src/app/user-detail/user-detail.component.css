@@ -7,37 +7,55 @@
 
 }
 #teacherList{
-    width: 50%;
+    width: 60%;
     height: 50%;
-    margin-left: 25%;
 }
+
 #listTable{
-    margin-left: 25%;
-}
-#iconApple{
-    width: 5%;
-    height: 5%;
-    display: inline-block;
-    margin-left: 90%;
-    vertical-align: top;
-}
-#iconPencil{
-    width: 4%;
-    height: 4%;
-    display: inline-block;
-    margin-left: 90%;
-    vertical-align: top;
-}
-#container{
-    border: solid 2px black;
-    width: 90%;
-    height: 90%;
-    margin: auto;
+    width: 70%;
+    text-align: center;
     
+}
+
+#delbtn:hover{
+    background-color: red;
+
+}
+
+#homebody{
+    margin: auto;
+    background-image: url("https://images.pexels.com/photos/1076429/pexels-photo-1076429.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    height: 100vh;
+    /* color: white; */
+}
+.form-control{
+ border-radius: 15px;
+}
+#detail{
+    width: 120vh;
+    height: 60vh;
+    overflow-y: scroll;
     background-color: white;
+    /* border: 2px solid black; */
+    border-radius: 25px;
+    padding: 20px;
 }
-body{
-    background: #ffc107;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #FFD762, #ffc107);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #FFD762, #ffc107); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+#outerDetail{
+    margin-top: 40px;
+    width: 120vh;
+    height: 62vh;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 25px;
 }
+
+.modal-content  {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0.9rem !important;
+ }
