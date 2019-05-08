@@ -104,7 +104,8 @@
                   <input type="submit" value="Enter" style="border-radius: 10px; background-color: #ffc107" />
                 </form>
                 <div *ngIf='getcodedone'>
-                  <h4>{{ classname}}'s code is: <span style="color: red">{{classcode}}</span> </h4>
+                  <br>
+                  <h3>{{ classname}} has code: <span style="color: red">{{classcode}}</span> </h3>
                 </div>
               </div>
             </div>
@@ -129,7 +130,7 @@
               <label for="exampleInputName1" class="text-uppercase">Enter Code Here: &nbsp;</label>
               <input type="text" name="aClass.classroom_code" class="form-control" placeholder="e.g. MwPIb"
                 [(ngModel)]="aClass.classroom_code"
-                style=" width: 400px; border-radius: 15px; border-color: 2px solid black" />
+                style=" width: 90%; border-radius: 15px; border-color: 2px solid black" />
               <span *ngIf="errorEnterCode" style="color: red">Please enter the correct code.</span><br>
               <span *ngIf="errorsameuser" style="color: red">You are already in this class.</span><br>
               <input type="submit" value="Submit"
