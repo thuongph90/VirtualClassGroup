@@ -1,97 +1,125 @@
-<div id="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <button id="menu-toggle" style="background: transparent; border: none" [routerLink]="['/home/' + user._id]"><img
-        src="https://cdn0.iconfinder.com/data/icons/cartoon-birds/50/47-128.png" alt="canary toggle menu"
-        id="canary"></button>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- NavBar Top -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/userDetail/' + user._id]"><img src={{user.image}}
-              style="width: 40px; height: 40px; border-radius: 20px"> &nbsp; {{ user.name }} <span
-              class="sr-only">(current)</span></a>
-        </li>
-      </ul>
+<div id="homebody">
+  <div id="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <button id="menu-toggle" style="background: transparent; border: none" [routerLink]="['/home/' + user._id]"><img
+          src="https://cdn0.iconfinder.com/data/icons/cartoon-birds/50/47-128.png" alt="canary toggle menu"
+          id="canary"></button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- NavBar Top -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/userDetail/' + user._id]"><img src={{user.image}}
+                style="width: 40px; height: 40px; border-radius: 20px"> &nbsp; {{ user.name }} <span
+                class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+      <!-- End NavBar Top -->
+    </nav>
+    <div id="outerDetail" class="mx-auto">
+      <div id="detail" class="mx-auto">
+
+        <!-- NAME AND EMAIL FORM -->
+        <div *ngIf='!showPersonalEditForm' id="editForm">
+          <h3 style="text-align: center">Profile Details</h3>
+          <hr>
+          <h6>Username: &nbsp; &nbsp;{{ user.name }}</h6>
+          <h6>Email: &nbsp;&nbsp; {{ user.email }}</h6>
+          <button type="button" class="btn btn-warning" (click)="onEditButtonForPersonalForm()"
+            style="border-radius: 10px">Edit your profile</button>
+        </div>
+        <div *ngIf='showPersonalEditForm' id="editForm">
+          <form class="edit-form" (submit)="OnEditUser()">
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="text-uppercase">username &nbsp;</label>
+              <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
+              <input type="text" name="editUser.name" [(ngModel)]="editUser.name" class="form-control"
+                placeholder="{{ user.name }}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="text-uppercase">Email &nbsp;</label>
+              <span class="input-group-addon"> <i class="fa fa-envelope"></i></span>
+              <input type="text" name="editUser.email" [(ngModel)]="editUser.email" class="form-control"
+                placeholder=" {{ user.email }}">
+            </div>
+            <button type="button" class="btn btn-warning" (click)="Cancel()"
+              style="border-radius: 10px; ">Cancel</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="btn btn-warning" type="submit" value="Save"
+              style="border-radius: 10px; background-color: green" />
+          </form>
+        </div>
+        <!-- END OF EDIT FORM -->
+        <br>
+        <!-- LIST OF CLASSROOMS -->
+        <h4 style="text-align: center;">Classrooms' List</h4>
+        <div id="teacherList" class="mx-auto">
+          <hr>
+
+          <table id="listTable" class="mx-auto"> 
+            <tr>
+              <th scope="col">Classrooms</th>
+              <th scope="col">Action</th>
+            </tr>
+            <tr *ngFor="let each of AllClassesofUser">
+              <td>{{each.classroom_name}}</td>
+              <td>
+                <button *ngIf='!Teacher' type="button" class="btn btn-warning" (click)="onLeaveButton(each._id)"
+                  style="border-radius: 10px">Leave</button>
+                <button *ngIf='Teacher' type="button" class="btn btn-warning" (click)="open(moreContent, each)"
+                  style="border-radius: 10px">Update</button>&nbsp;&nbsp;&nbsp;
+                <button *ngIf='Teacher' type="button" id="delbtn" class="btn btn-warning"
+                  (click)="openVerticallyCentered(content)" style="border-radius: 10px">Delete</button>
+              </td>
+
+              <ng-template #content let-modal>
+                <div class="modal-header">
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete?</p>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-outline-danger mb-2 mr-2" (click)="deleteClass(each)">Delete</button>
+                  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+                </div>
+              </ng-template>
+
+            </tr>
+          </table>
+
+        </div>
+
+        <!-- Edit classroom modal -->
+        <ng-template #moreContent let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Update {{updateClassroom.classroom_name}} class</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (submit)="onEditClass()">
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="text-uppercase">Name &nbsp;</label>
+                <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
+                <input type="text" name="updateClassroom.classroom_name" [(ngModel)]="updateClassroom.classroom_name"
+                  class="form-control" value="{{ updateClassroom.classroom_name }}">
+                <br>
+                <input type="button" class="btn btn-warning" type="submit" value="Save" />
+              </div>
+            </form>
+          </div>
+        </ng-template>
+        <!-- / End of edit classroom modal -->
+
+      </div>
     </div>
-    <!-- End NavBar Top -->
-  </nav>
-  <img *ngIf='!Teacher' id="iconPencil" src="https://img.icons8.com/cotton/2x/edit--v2.png">
-  <img *ngIf='Teacher' id="iconApple"
-    src="https://t3.ftcdn.net/jpg/01/18/40/82/240_F_118408265_dGltpsxRe7WKYOCTimCB34brbtF6CfGg.jpg">
-  <div style="text-align: center">
-    <h2>{{ user.name }}'s Account Page</h2>
-  </div>
-  <!-- NAME AND EMAIL FORM -->
-  <div *ngIf='!showPersonalEditForm' id="editForm">
-    <h5>Name: {{ user.name }}</h5>
-    <h5>Email: {{ user.email }}</h5>
-    <button type="button" class="btn btn-warning" (click)="onEditButtonForPersonalForm()">Edit</button>
-  </div>
-  <div *ngIf='showPersonalEditForm' id="editForm">
-    <form class="edit-form" (submit)="OnEditUser()">
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="text-uppercase">Name &nbsp;</label>
-        <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
-        <input type="text" name="editUser.name" [(ngModel)]="editUser.name" class="form-control"
-          placeholder="{{ user.name }}">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="text-uppercase">Email &nbsp;</label>
-        <span class="input-group-addon"> <i class="fa fa-envelope"></i></span>
-        <input type="text" name="editUser.email" [(ngModel)]="editUser.email" class="form-control"
-          placeholder=" {{ user.email }}">
-      </div>
-      <input class="btn btn-warning" type="submit" value="save" />
-    </form>
-  </div>
-  <!-- END OF EDIT FORM -->
-  <!-- LIST OF CLASSROOMS -->
-  <h4 style="text-align: center">{{ user.name }}'s Classrooms</h4>
-  <div id="teacherList" *ngIf='Teacher'>
-    <table id="listTable" class="table" style="width:50%">
-      <tr>
-        <th scope="col">Classrooms</th>
-        <th scope="col">Action</th>
-      </tr>
-      <tr *ngFor="let each of AllClassesofUser">
-        <td>{{each.classroom_name}}</td>
-        <td>
-          <button *ngIf='Teacher' type="button" class="btn btn-warning"
-            (click)="onEditButton(each._id)">edit</button>&nbsp;&nbsp;&nbsp;
-          <button *ngIf='Teacher' type="button" class="btn btn-warning" (click)="deleteClass(each)">delete</button>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div id="teacherList" *ngIf='!Teacher'>
-    <table id="listTable" class="table" style="width:50%">
-      <tr>
-        <th scope="col">Classrooms</th>
-        <th scope="col" *ngIf='Teacher'>Action</th>
-      </tr>
-      <tr *ngFor="let each of AllClassesofUser">
-        <td>{{each.classroom_name}}</td>
-        <td>
-          <button *ngIf='Teacher' type="button" class="btn btn-warning"
-            (click)="onEditButton(each._id)">edit</button>&nbsp;&nbsp;&nbsp;
-          <button *ngIf='Teacher' type="button" class="btn btn-warning" (click)="deleteClass(each)">delete</button>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div *ngIf='showEditForm'>
-    <form (submit)="onEditClass()">
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="text-uppercase">Name &nbsp;</label>
-        <span class="input-group-addon"> <i class="fa fa-user-circle-o"></i></span>
-        <input type="text" name="updateClassroom.classroom_name" [(ngModel)]="updateClassroom.classroom_name"
-          class="form-control" placeholder="{{ OneSingleClassroom[0].classroom_name }}">
-        <input type="button" class="btn btn-warning" type="submit" value="save" />
-      </div>
-    </form>
   </div>
 </div>
