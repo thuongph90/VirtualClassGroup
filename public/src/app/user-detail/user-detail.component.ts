@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 
 @Component({
@@ -21,7 +22,7 @@ export class UserDetailComponent implements OnInit {
   classroom: any;
   newClassroom: any;
   updateClassroom: any;
-  OneSingleClassroom: any;
+  
   editUser: any;
   
   Student= false; 
@@ -34,9 +35,35 @@ export class UserDetailComponent implements OnInit {
   public is_Collapsed = true;
 
   constructor(
+    private modalService: NgbModal,
     private _httpService: HttpService,
     private _route: ActivatedRoute,
     private _router: Router) { }
+
+  // Edit Classroom Modal
+
+  closeResult: string;
+
+  open(moreContent, body) {
+    this.onEditButton(body)
+    this.modalService.open(moreContent, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  //
 
   ngOnInit() {
 
@@ -56,7 +83,7 @@ export class UserDetailComponent implements OnInit {
     this.newClassroom={classroom_name:""}
     this.classroom={classroom_name: "", classroom_code: ""}
     this.editUser={name: '', email:''}
-    this.updateClassroom = {classroom_name: ""}
+    this.updateClassroom = {};
 
   }
 
@@ -129,27 +156,30 @@ export class UserDetailComponent implements OnInit {
   })
   }
 
-  onEditButton(id: string){
-    let observable = this._httpService.getClass(id);
-    observable.subscribe(data => {
-      this.OneSingleClassroom =data['data'];     
-      this.showEditForm = true;
-    });
+  onEditButton(body: object){
+    console.log("DUMA in the edit class",body);
+    this.showEditForm = true;
+    this.updateClassroom= body;
   }
 
   onEditButtonForPersonalForm(){
     this.showPersonalEditForm = true;
   }
 
-  onEditClass(){
-    let observable = this._httpService.editClassrooom(this.OneSingleClassroom[0]._id, this.updateClassroom);
-    observable.subscribe(data => {
-      this.updateClassroom = {classroom_name: ""}
-      this.AllClassesofUser = [];
-      this.showAllClasses()
-    })    
+  // onEditClass(){
+  //   let observable = this._httpService.editClassrooom(this.updateClassroom._id, this.updateClassroom);
+  //   observable.subscribe(data => {
+  //     this.updateClassroom = {classroom_name: ""}
+  //     this.AllClassesofUser = [];
+  //     this.showAllClasses()
+  //   })    
+  // }
+  Cancel(){
+    this.showPersonalEditForm = false;
   }
-
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true });
+  }
 }
 
 
