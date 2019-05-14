@@ -7,7 +7,7 @@ module.exports = function () {
     var UserSchema = new mongoose.Schema({
         name: { type: String, required: [true, "Name is required"], minlength: [2, " Name must be  at least 2 characters"] },
         email: { type: String, required: [true, "Email is required"] },
-        password: { type: String, required: [true, "Password is required"] },
+        password: { type: String },
         image: { type: String, default: "https://i.pinimg.com/originals/85/48/ea/8548ea7bbae3129c0f397a8593765717.jpg" },
         type: { type: String, default: "" }
     }, { timestamps: true })

@@ -44,22 +44,33 @@ export class LoginComponent implements OnInit {
   }
 
   OnCreateUser() {
-    this._httpService.CreateUser(this.newUser).subscribe(data => {
-      if (data['error'] != null) {
-        this.errorname = data['error']['errors']['name']['message'];
-        this.erroremail = data['error']['errors']['email']['message'];
-        this.errorpassword = data['error']['errors']['password']['message']
-      }
-      else {
+    console.log(this.newUser)
+    if(this.newUser.name.length<2  ){
+      console.log("Error validation")
+      this.errorname="Name is more than 2 characters";
+    }
+    else if(this.newUser.email==""){
+      this.erroremail="Email is required";
+    }
+    else if(this.newUser.password==""){
+      this.errorpassword="Password is required";
+    }
+    else{
+      console.log("YEAHHHH, Pass the validation")
+      this._httpService.CreateUser(this.newUser).subscribe(data => {
         this.newUser = { name: '', email: '', password: '' }
         this._router.navigate([`/home/${data['data']._id}`])
-      }
-    })
+      })
+    }
   }
-
+  errorLogin: any;
   OnLoginUser() {
+    console.log("In the login")
     this._httpService.LogIn(this.LoginUser).subscribe(data => {
-      if (data['error'] != null) {
+      console.log("result of login",data)
+      if (data['message'] != "Success") {
+        console.log("error",data['message'])
+        this.errorLogin=data['message']
       }
       else {
         this._router.navigate([`/home/${data['data']._id}`])
