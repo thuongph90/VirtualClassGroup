@@ -19,6 +19,7 @@ export class HttpService {
   }
 
   LogIn(body) {
+    console.log("in the http.service", body)
     return this._http.post("/login", body)
   }
 

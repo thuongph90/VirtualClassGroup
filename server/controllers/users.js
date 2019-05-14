@@ -23,18 +23,22 @@ module.exports = {
         var newUser = new User({ name: req.body.name, email: req.body.email, password: hashpw, type: req.body.type })
         newUser.save(function (err, user) {
             if (err) {
-                console.log(err);
+                console.log("Failed to sign up",err);
                 res.json({ message: "Error", error: err })
 
             } else {
+                console.log("Yeaah, Successful to sign up", user)
                 res.json({ message: "Success", data: user })
             }
         })
     },
 
     Login: function (req, res) {
+        console.log("in the controllers", req.body)
         User.countDocuments({ email: req.body.email }, function (err, count) {
+            console.log(count)
             if (count == 1) {
+                console.log("Bla bla bla")
                 User.findOne({ email: req.body.email }, function (err, theUser) {
                     if (bcrypt.compareSync(req.body.password, theUser.password)) {
                         theUser.save(function (err) {
@@ -52,7 +56,8 @@ module.exports = {
                 })
             }
             else {
-                res.json({ message: "Invalid Email", error: err })
+                console.log("Invalid Email")
+                res.json({ message: "Invalid Email"})
             }
         })
     },
@@ -63,11 +68,13 @@ module.exports = {
     },
 
     EditUser: function (req, res) {
+        console.log("In controllers for editing users")
         User.update({ _id: req.params.id }, { $set: { name: req.body.name, email: req.body.email, image: req.body.image } }, function (err, user) {
             if (err) {
                 console.log(err);
             }
             else {
+                console.log("Successfully updated")
                 res.json({ message: "Successfully Updated", data: user })
             }
         })

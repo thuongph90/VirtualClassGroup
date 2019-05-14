@@ -142,9 +142,10 @@ export class UserDetailComponent implements OnInit {
   }
 
   OnEditUser() {
-    let Observable = this._httpService.UpdateUser(this.userID, this.editUser);
+    console.log("in Component with userID:", this.userID, "Edit body", this.user)
+    let Observable = this._httpService.UpdateUser(this.userID, this.user);
     Observable.subscribe(data => {
-      this.editUser={name: '', email:''}
+      this.showPersonalEditForm = false;
     })
   }
 
